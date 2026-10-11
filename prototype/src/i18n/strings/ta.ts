@@ -189,4 +189,6 @@ export const ta: Translations = {
   'finding.sample': 'மாதிரி',
   'receipt.bookedFare': 'முன்பதிவு கட்டணம்',
   'receipt.done': 'முடிந்தது',
+  'help.ticketOpened': 'டிக்கெட் திறக்கப்பட்டது',
+  'help.replyTime': '24 மணி நேரத்திற்குள் பதிலளிப்போம்.',
 }

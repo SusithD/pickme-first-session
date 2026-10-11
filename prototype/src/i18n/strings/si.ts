@@ -186,4 +186,6 @@ export const si: Translations = {
   'finding.sample': 'නියැදි',
   'receipt.bookedFare': 'වෙන් කළ ගාස්තුව',
   'receipt.done': 'අවසන්',
+  'help.ticketOpened': 'ටිකට් එක විවෘත කළා',
+  'help.replyTime': 'පැය 24ක් ඇතුළත අපි පිළිතුරු දෙමු.',
 }

@@ -7,4 +7,6 @@ export const receiptExtra = {
   'receipt.pill.explained': '+{amount} explained',
   'receipt.bookedFare': 'Booked fare',
   'receipt.done': 'Done',
+  'help.ticketOpened': 'Ticket opened',
+  'help.replyTime': 'We reply within 24 hours.',
 } as const

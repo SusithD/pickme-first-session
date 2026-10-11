@@ -35,7 +35,7 @@ export default function Arrived() {
 
   if (!treatment) {
     return (
-      <MapScreen mode="arrived" back={false} callout={callout}>
+      <MapScreen mode="arrived" back={false} callout={callout} sheetTop="58%">
         <h1>{t('arrived.heading.control')}</h1>
         <p className="muted">{t('arrived.waiting.control')}</p>
         <div className={styles.actions}>
@@ -52,7 +52,7 @@ export default function Arrived() {
   }
 
   return (
-    <MapScreen mode="arrived" back={false} callout={callout}>
+    <MapScreen mode="arrived" back={false} callout={callout} sheetTop="58%">
       <h1>{t('arrived.title', { place })}</h1>
       <div className={styles.actions}>
         <Button

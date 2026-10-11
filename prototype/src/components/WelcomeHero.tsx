@@ -33,12 +33,18 @@ export function WelcomeHero({ compact }: { compact?: boolean }) {
         </g>
         <rect className="hero-road" x="0" y="286" width="390" height="14" />
         <g className="hero-tuk">
-          <path d="M236 280v-18c0-16 12-26 30-26h20c8 0 14 4 17 11l7 15h12c5 0 8 3 8 8v10z" />
-          <rect className="hero-window" x="246" y="246" width="38" height="16" rx="7" />
-          <circle cx="258" cy="288" r="11" />
-          <circle cx="326" cy="289" r="9" />
-          <circle className="hero-window" cx="258" cy="288" r="4" />
-          <circle className="hero-window" cx="326" cy="289" r="3.5" />
+          <path d="M232 268V254C232 234 250 220 276 220C296 220 308 228 314 242L324 266z" />
+          <path
+            className="hero-window"
+            d="M244 262V248C244 240 252 234 264 234H288C296 234 301 238 304 246L310 262z"
+          />
+          <rect x="252" y="246" width="10" height="16" rx="4" />
+          <path d="M232 262H330C338 262 344 267 344 274V281H232z" />
+          <path className="hero-line" d="M326 262L334 284M318 236H334" />
+          <circle cx="258" cy="280" r="12" />
+          <circle cx="334" cy="285" r="7" />
+          <circle className="hero-window" cx="258" cy="280" r="4.5" />
+          <circle className="hero-window" cx="334" cy="285" r="2.5" />
         </g>
       </svg>
     </div>

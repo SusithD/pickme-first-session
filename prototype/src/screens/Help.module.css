@@ -11,7 +11,7 @@
 }
 
 .confirmation {
-  margin-block: auto;
+  margin-top: var(--s2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,8 +28,14 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--primary);
-  color: var(--ink);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}
+
+.opened {
+  font-size: var(--fs-title2);
+  line-height: var(--lh-title2);
+  font-weight: var(--fw-bold);
 }
 
 .ticket {

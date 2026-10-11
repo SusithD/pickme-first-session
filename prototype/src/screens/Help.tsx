@@ -60,10 +60,14 @@ export default function Help() {
             <span className={styles.check}>
               <IconCheck size={30} />
             </span>
+            <h2 className={styles.opened}>{t('help.ticketOpened')}</h2>
             <span className={styles.mono} aria-hidden="true">
               #{state.ticket}
             </span>
-            <p className={styles.ticket}>{t('help.ticket', { ticket: state.ticket ?? '' })}</p>
+            <p className={styles.ticket} aria-hidden="true">
+              {t('help.replyTime')}
+            </p>
+            <p className="visually-hidden">{t('help.ticket', { ticket: state.ticket ?? '' })}</p>
             {flagged > 0 ? (
               <p className={styles.hold}>{t('help.hold', { amount: formatLkr(flagged) })}</p>
             ) : null}

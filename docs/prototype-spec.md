@@ -2,7 +2,7 @@
 
 Date 2026-10-11. Consolidates plan sections 3 and 10 (addendum), then the local-market and review fixes. This file is the reference for every screen, route, state, copy string, token and variant rule in the prototype.
 
-Not affiliated with PickMe. Desk research only; no PickMe interface, logo, colour or screen is reproduced. The control variant is a generic ride-hailing pattern, never PickMe's real behaviour. All fares, plates, rates and the 60 s and 24 h values are invented demo values.
+Not affiliated with PickMe. Desk research only; no PickMe logo, wordmark artwork or screen is reproduced. The visual language follows PickMe's brand colours and type (decision D17). The control variant is a generic ride-hailing pattern, never PickMe's real behaviour. All fares, plates, rates and the 60 s and 24 h values are invented demo values.
 
 ## 1. Frame and conventions
 
@@ -271,17 +271,20 @@ Contrast ratios are computed with the WCAG relative-luminance formula and re-che
 
 | Token | Value | Use | Contrast (computed) |
 |---|---|---|---|
-| `--ink` | `#14213D` | body text | 15.3:1 on `--paper`; 16.0:1 on white |
-| `--ink-2` | `#5B6470` | secondary text | 5.7:1 on `--paper`; 6.0:1 on white |
-| `--paper` | `#FAFAF7` | app background | base |
-| `--surface` | `#FFFFFF` | cards, sheets | base |
-| `--primary` | `#0B6E6D` | CTA, links, selected | white on primary 6.1:1; primary on `--paper` 5.8:1 |
-| `--primary-soft` | `#E6F4F3` | selected card tint | `--ink` on it 14.2:1; `#085E5D` text on it 6.7:1 |
-| `--danger` | `#B42318` | errors, cancellations | 6.6:1 on white; 6.1:1 on `#FEF3F2` |
-| `--warn-ink` / `--warn-bg` | `#7A4E00` / `#FFFBEB` | fare change notices | 6.9:1 |
-| `--ok-ink` / `--ok-bg` | `#067647` / `#ECFDF3` | "as booked", agreed badges | 5.4:1 |
-| `--border` | `#6B7584` | input and card borders | 4.7:1 on white (UI needs 3:1) |
-| `--focus` | `#14213D`, 2 px solid, 2 px white offset | focus ring | visible on all surfaces |
+| `--primary` | `#FED52F` (PickMe yellow) | primary buttons, selected tint source, brand hero | `--ink` on it 11.5:1 |
+| `--primary-pressed` | `#F2C500` | pressed primary | `--ink` on it 10.0:1 |
+| `--primary-soft` | `#FFF8D6` | selected rows, fixed-fare row | `--ink` 15.3:1; `--ink-2` 5.9:1 |
+| `--ink` | `#211F20` (PickMe near-black) | text, dark surfaces, notice strip | 16.4:1 on white; yellow on ink 11.5:1 |
+| `--ink-2` | `#5C6068` | secondary text | 6.3:1 on white; 5.9:1 on `--paper`; 5.7:1 on `#F2F2F7` |
+| `--paper` / `--surface` | `#F4F8FB` / `#FFFFFF` | page background / cards and sheets | base |
+| `--warn-ink` / `--warn-bg` | `#6B4300` / `#FFF1D6` | fare-change notices and pills | 7.8:1 |
+| `--ok-ink` / `--ok-bg` | `#067647` / `#E3F6EA` | "As booked", success seal | 5.1:1 |
+| `--danger` / `--danger-bg` | `#B42318` / `#FEF3F2` | errors, cancellations | 6.1:1; white on danger 6.6:1 |
+| `--amber` | `#FDB940` | decorative accent only, never text | n/a |
+| `--grabber`, separators | `#C7C7CC`, `#E5E5EA` | sheet grabber, list hairlines | decorative |
+| `--focus` | `#211F20` ring with white offset | focus ring | visible on every surface |
+
+Typeface: Manrope 400 to 800 on the iOS type scale (Large Title 34/41, Title 2 22/28, Headline and Body 17/22, Subheadline 15/20, Footnote 13/18, Caption 12/16), with tabular numerals for money. Sinhala and Tamil use Noto Sans with line height 1.6. Yellow is never used as text on a light background.
 
 Rules:
 
@@ -290,25 +293,13 @@ Rules:
 - Nothing depends on hover.
 - Only tokens in `tokens.css` are used. No magic colours in screen CSS.
 
-### Type scale (rem, base 16 px)
-
-| Role | Size / line height | Weight |
-|---|---|---|
-| Display | 1.75 / 1.2 | semibold |
-| Title | 1.25 / 1.3 | semibold |
-| Body | 1 / 1.5 | regular |
-| Small | 0.875 / 1.5 | regular |
-| Caption | 0.75 / 1.4 | regular, only with `--ink-2`, never below 0.75 rem |
-
-Sinhala and Tamil use `line-height: 1.6` at each role.
-
 ### Spacing, radius, targets, motion
 
 - Spacing: 4-point scale, `--s1` to `--s8` = 4, 8, 12, 16, 24, 32, 48, 64 px.
-- Radius: `--r-sm` 8 px, `--r-md` 12 px, `--r-lg` 20 px.
+- Radius: fields 12 px, cards 16 px, sheets 28 px, primary buttons 14 px.
 - Touch targets: minimum 44 x 44 px.
-- Motion: 160 ms ease-out transitions only.
-- `prefers-reduced-motion: reduce` disables all transitions. The matching spinner becomes a static "Searching" label with elapsed seconds.
+- Motion: sheet slide-up 280 ms cubic-bezier(.32,.72,0,1); selection 150 ms; radar pulse and vehicle dot on the map.
+- `prefers-reduced-motion: reduce` disables all motion, including the radar pulse and the vehicle dot. The matching spinner becomes a static "Searching" label with elapsed seconds.
 - Layout works at phone width with a 16 px side gutter and no horizontal page scroll. Text resizes to 200% without clipping.
 
 ## 9. Accessibility requirements (WCAG 2.2 AA)
@@ -326,7 +317,7 @@ Sinhala and Tamil use `line-height: 1.6` at each role.
 - Plain professional English. No emoji anywhere in the UI or the copy.
 - Every review quote is under 15 words, with platform and date, and matches `research/02-review-mining.md`.
 - All fares, plates and rates are invented and labelled as mock or sample.
-- No PickMe logo, colour or screen reconstruction. The PickMe name appears only in the non-affiliation notice.
+- No PickMe logo mark, wordmark artwork or screen reconstruction. The name appears as plain text with a "concept" tag and in the non-affiliation notice on every screen. Data fields carry "Demo only. Nothing is sent."
 - The non-affiliation note is visible on every screen through the banner.
 - Social-media posts by private individuals are excluded (D10).
 

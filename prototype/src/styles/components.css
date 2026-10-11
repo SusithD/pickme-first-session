@@ -1521,8 +1521,15 @@
   fill: var(--ink);
 }
 
-.hero-window {
+.hero-tuk .hero-window {
   fill: var(--primary);
+}
+
+.hero-tuk .hero-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 4;
+  stroke-linecap: round;
 }
 
 .action-circle:disabled {

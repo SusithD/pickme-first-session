@@ -105,7 +105,7 @@ export default function Finding() {
             : 'pickup'
       }
       back={false}
-      sheetTop={finding === 'matched' ? '36%' : undefined}
+      sheetTop={finding === 'matched' ? '28%' : undefined}
       footer={
         finding === 'matched' && driver ? (
           <LinkButton block to={STEP_PATHS.trip}>
@@ -144,8 +144,8 @@ export default function Finding() {
 
       {finding === 'matched' && driver ? (
         <>
-          <h2 className={styles.heading}>{t('finding.matched')}</h2>
           <div className={styles.driver}>
+            <h2 className={styles.heading}>{t('finding.matched')}</h2>
             <div className={styles.driverTop}>
               <span className={styles.avatar} aria-hidden="true">
                 {driver.name.slice(0, 1)}

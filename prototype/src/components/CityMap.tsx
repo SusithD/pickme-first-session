@@ -3,10 +3,11 @@ import { TukShapes } from './icons'
 export type MapMode = 'pickup' | 'route' | 'searching' | 'matched' | 'trip' | 'arrived'
 
 const ROUTE = 'M118 248 C160 248 188 242 206 222 C224 202 226 180 250 166 C270 154 292 144 318 140'
-const DRIVER_ROUTE = 'M250 176 C226 206 190 238 118 248'
+const MATCHED_PICKUP = { x: 118, y: 208 }
+const DRIVER_ROUTE = 'M252 150 C232 176 190 202 118 208'
 const PICKUP = { x: 118, y: 248 }
 const DEST = { x: 318, y: 140 }
-const DRIVER = { x: 250, y: 176 }
+const DRIVER = { x: 252, y: 142 }
 
 function Callout({ text }: { text: string }) {
   const width = Math.round(text.length * 6.9 + 28)
@@ -22,6 +23,7 @@ function Callout({ text }: { text: string }) {
 }
 
 export function CityMap({ mode, callout }: { mode: MapMode; callout?: string }) {
+  const pickup = mode === 'matched' ? MATCHED_PICKUP : PICKUP
   const showRoute = mode === 'route' || mode === 'trip' || mode === 'arrived'
   return (
     <svg
@@ -89,7 +91,7 @@ export function CityMap({ mode, callout }: { mode: MapMode; callout?: string }) 
         </>
       ) : null}
 
-      <g transform={`translate(${PICKUP.x} ${PICKUP.y})`}>
+      <g transform={`translate(${pickup.x} ${pickup.y})`}>
         {mode === 'searching' ? (
           <g className="citymap-radar">
             <circle className="citymap-ring citymap-ring-1" r="30" />
@@ -103,7 +105,20 @@ export function CityMap({ mode, callout }: { mode: MapMode; callout?: string }) 
         <circle className="citymap-pickup" r="7" />
       </g>
 
-      {mode === 'trip' || mode === 'arrived' ? (
+      {mode === 'arrived' ? (
+        <g transform={`translate(${DEST.x} ${DEST.y})`}>
+          <circle className="citymap-driver" r="14" />
+          <g
+            className="citymap-driver-glyph"
+            transform="translate(-9 -9) scale(0.75)"
+            strokeWidth="2"
+          >
+            <TukShapes />
+          </g>
+        </g>
+      ) : null}
+
+      {mode === 'trip' ? (
         <circle
           className={`citymap-vehicle citymap-vehicle-${mode}`}
           r="6"
