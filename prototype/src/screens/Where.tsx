@@ -41,6 +41,21 @@ export default function Where() {
         <span>{t('where.pickup')}</span>
       </div>
 
+      <div>
+        <label htmlFor="where-note" className="field-label">
+          {t('where.noteLabel')}
+        </label>
+        <input
+          id="where-note"
+          type="text"
+          className="form-input"
+          autoComplete="off"
+          maxLength={120}
+          value={state.pickupNote ?? ''}
+          onChange={(event) => dispatch({ type: 'SET_PICKUP_NOTE', note: event.target.value })}
+        />
+      </div>
+
       {showLocationLink ? (
         <LinkButton to={STEP_PATHS.location} variant="secondary" block>
           {t('where.locationLink')}

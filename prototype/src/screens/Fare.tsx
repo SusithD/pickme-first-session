@@ -1,7 +1,7 @@
 import { Button } from '../components/Button'
 import { Sheet } from '../components/Sheet'
 import { useI18n } from '../i18n/I18nContext'
-import { DISTANCE_KM, formatLkr } from '../state/mock'
+import { PEAK_PERCENT, WAIT_FEE_PER_MIN, WAIT_FREE_MINUTES, formatLkr } from '../state/mock'
 import { useRide } from '../state/RideContext'
 import { bookedFare, fareTotal } from '../state/rideMachine'
 import styles from './Fare.module.css'
@@ -16,7 +16,7 @@ export default function Fare() {
   const close = () => dispatch({ type: 'GOTO', step: 'ride' })
 
   return (
-    <Sheet open title={t('fare.title')} onClose={close}>
+    <Sheet open title={t('fare.title')} onClose={close} headingLevel="h1">
       {treatment ? (
         <div className={styles.body}>
           <dl className={styles.breakdown}>
@@ -25,12 +25,12 @@ export default function Fare() {
               <dd>{formatLkr(state.fare.base)}</dd>
             </div>
             <div className={styles.line}>
-              <dt>{t('fare.distance', { km: DISTANCE_KM })}</dt>
+              <dt>{t('fare.distance', { km: state.fare.distanceKm })}</dt>
               <dd>{formatLkr(state.fare.distance)}</dd>
             </div>
             {state.peak ? (
               <div className={styles.line}>
-                <dt>{t('fare.peak')}</dt>
+                <dt>{t('fare.peak', { percent: PEAK_PERCENT })}</dt>
                 <dd>{formatLkr(state.fare.peak)}</dd>
               </div>
             ) : null}
@@ -47,9 +47,14 @@ export default function Fare() {
           </dl>
 
           <div className={styles.changes}>
-            <h3 className={styles.heading}>{t('fare.changeHeading')}</h3>
+            <h2 className={styles.heading}>{t('fare.changeHeading')}</h2>
             <ul className={styles.list}>
-              <li>{t('fare.change.wait')}</li>
+              <li>
+                {t('fare.change.wait', {
+                  minutes: WAIT_FREE_MINUTES,
+                  amount: formatLkr(WAIT_FEE_PER_MIN),
+                })}
+              </li>
               <li>{t('fare.change.route')}</li>
               <li>{t('fare.change.stop')}</li>
             </ul>

@@ -22,6 +22,7 @@ export default function Help() {
   const reasons: readonly RadioOption<ReasonValue>[] = [
     { value: 'fareHigher', label: t('help.reason.fareHigher') },
     { value: 'cashOnCard', label: t('help.reason.cashOnCard') },
+    { value: 'offApp', label: t('help.reason.offApp') },
     { value: 'noTrip', label: t('help.reason.noTrip') },
   ]
 

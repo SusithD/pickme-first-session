@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import Arrived from '../screens/Arrived'
-import Fare from '../screens/Fare'
+import FareOverRide from './FareOverRide'
 import Finding from '../screens/Finding'
 import Help from '../screens/Help'
 import Intro from '../screens/Intro'
@@ -28,7 +28,7 @@ const screens: Record<Step, ComponentType> = {
   location: Location,
   where: Where,
   ride: Ride,
-  fare: Fare,
+  fare: FareOverRide,
   verify: Verify,
   finding: Finding,
   trip: Trip,

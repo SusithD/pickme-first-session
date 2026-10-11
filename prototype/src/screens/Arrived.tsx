@@ -60,7 +60,7 @@ export default function Arrived() {
         </Button>
       </div>
       {showNotYet ? <p className={styles.note}>{t('arrived.notYet')}</p> : null}
-      <p className={styles.rule}>{t('arrived.rule')}</p>
+      <p className={styles.rule}>{t('arrived.rule', { seconds: ARRIVAL_TIMEOUT_SECONDS })}</p>
       <p className={styles.countdown}>{t('arrived.countdown', { seconds: remaining })}</p>
       <LiveRegion message={halfwayMessage} />
     </section>

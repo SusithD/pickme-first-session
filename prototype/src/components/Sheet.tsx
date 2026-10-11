@@ -8,12 +8,21 @@ interface SheetProps {
   title: string
   children: ReactNode
   container?: 'frame' | 'viewport'
+  headingLevel?: 'h1' | 'h2'
 }
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export function Sheet({ open, onClose, title, children, container = 'frame' }: SheetProps) {
+export function Sheet({
+  open,
+  onClose,
+  title,
+  children,
+  container = 'frame',
+  headingLevel = 'h2',
+}: SheetProps) {
+  const Heading = headingLevel
   const { t } = useI18n()
   const titleId = useId()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -78,9 +87,9 @@ export function Sheet({ open, onClose, title, children, container = 'frame' }: S
         className="sheet"
       >
         <div className="sheet-header">
-          <h2 id={titleId} className="sheet-title">
+          <Heading id={titleId} className="sheet-title">
             {title}
-          </h2>
+          </Heading>
           <button type="button" className="btn btn-ghost sheet-close" onClick={() => onClose()}>
             {t('common.close')}
           </button>

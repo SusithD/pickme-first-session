@@ -44,7 +44,7 @@ describe('Where screen', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Where to?' })).toBeInTheDocument()
     expect(
       screen.getAllByRole('button', {
-        name: /Fort Railway|Bambalapitiya|Nugegoda|Borella|Mount Lavinia/,
+        name: /Fort Railway|Wellawatte|Nugegoda|Borella|Mount Lavinia/,
       }),
     ).toHaveLength(PLACES.length)
 
@@ -110,12 +110,12 @@ describe('Ride screen', () => {
     tuk.focus()
 
     await user.keyboard('{ArrowRight}')
-    expect(latest.current?.rideType).toBe('flex')
-    expect(within(group).getByRole('radio', { name: /^Flex/ })).toHaveAttribute(
+    expect(latest.current?.rideType).toBe('smallCar')
+    expect(within(group).getByRole('radio', { name: /^Small car/ })).toHaveAttribute(
       'aria-checked',
       'true',
     )
-    expect(within(group).getByRole('radio', { name: /^Flex/ })).toHaveFocus()
+    expect(within(group).getByRole('radio', { name: /^Small car/ })).toHaveFocus()
 
     await user.keyboard('{ArrowRight}')
     await user.keyboard('{ArrowRight}')
@@ -145,18 +145,19 @@ describe('Ride screen', () => {
       'href',
       '#/fare',
     )
-    expect(screen.queryByText(/Estimated LKR/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Estimated/)).not.toBeInTheDocument()
   })
 
   it('hides the peak line in treatment when peak pricing is off', () => {
     renderScreen(<Ride />, rideState('treatment', { peak: false }))
     expect(screen.queryByText('Includes peak +15% now')).not.toBeInTheDocument()
-    expect(screen.getByText('LKR 472')).toBeInTheDocument()
+    expect(screen.getByText('LKR 564')).toBeInTheDocument()
   })
 
-  it('shows an estimate range with no breakdown and no link in control', () => {
+  it('shows the same fare labelled as an estimate with no breakdown and no link in control', () => {
     renderScreen(<Ride />, rideState('control'))
-    expect(screen.getByText('Estimated LKR 470 to 620')).toBeInTheDocument()
+    expect(screen.getByText('Estimated LKR 649')).toBeInTheDocument()
+    expect(screen.queryByText('LKR 649')).not.toBeInTheDocument()
     expect(screen.queryByText('Fixed fare')).not.toBeInTheDocument()
     expect(screen.queryByText('Includes peak +15% now')).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'What can change this?' })).not.toBeInTheDocument()
@@ -165,22 +166,22 @@ describe('Ride screen', () => {
   it('labels the CTA with the selected ride and its booked fare', async () => {
     const user = userEvent.setup()
     const latest = renderScreen(<Ride />, rideState('treatment'))
-    expect(screen.getByRole('button', { name: 'Book Tuk · LKR 540' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Book Tuk · LKR 649' })).toBeInTheDocument()
 
     await user.click(
       within(screen.getByRole('radiogroup', { name: 'Ride type' })).getByRole('radio', {
         name: /^Car/,
       }),
     )
-    expect(screen.getByRole('button', { name: 'Book Car · LKR 1,240' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Book Car · LKR 1,231' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Book Car · LKR 1,240' }))
+    await user.click(screen.getByRole('button', { name: 'Book Car · LKR 1,231' }))
     expect(latest.current?.booked).toBe(true)
     expect(latest.current?.rideType).toBe('car')
   })
 
-  it('uses the same CTA label shape in control', () => {
+  it('labels the control CTA as an estimate', () => {
     renderScreen(<Ride />, rideState('control'))
-    expect(screen.getByRole('button', { name: 'Book Tuk · LKR 540' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Book Tuk · est. LKR 649' })).toBeInTheDocument()
   })
 })

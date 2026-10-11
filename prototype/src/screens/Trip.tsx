@@ -1,19 +1,20 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, LinkButton } from '../components/Button'
 import { Notice } from '../components/Notice'
+import { Sheet } from '../components/Sheet'
+import { ShareTripButton } from '../components/ShareTripButton'
 import { useI18n } from '../i18n/I18nContext'
 import { formatLkr } from '../state/mock'
 import { useRide } from '../state/RideContext'
 import { STEP_PATHS, bookedFare, fareTotal } from '../state/rideMachine'
 import styles from './Trip.module.css'
 
-const MINUTES_LEFT = 9
-
 export default function Trip() {
   const { t } = useI18n()
   const { state, dispatch } = useRide()
   const { scenario, destination, variant } = state
   const treatment = variant === 'treatment'
+  const [safetyOpen, setSafetyOpen] = useState(false)
   const routeChange = state.fare.changes.find((change) => change.kind === 'route')
   const total = fareTotal(state.fare)
   const unchanged = total === bookedFare(state.fare)
@@ -63,7 +64,7 @@ export default function Trip() {
             <span className={styles.dotEnd} />
           </div>
           <p className={styles.routeLabel}>
-            {t('trip.routeBar', { place: destination.name, min: MINUTES_LEFT })}
+            {t('trip.routeBar', { place: destination.name, min: destination.tripMinutes })}
           </p>
         </div>
       ) : null}
@@ -79,9 +80,21 @@ export default function Trip() {
       </div>
 
       <div className={styles.actions}>
-        <Button variant="secondary">{t('trip.share')}</Button>
-        <Button variant="secondary">{t('trip.safety')}</Button>
+        <ShareTripButton label={t('trip.share')} />
+        <Button variant="secondary" onClick={() => setSafetyOpen(true)}>
+          {t('trip.safety')}
+        </Button>
       </div>
+
+      <Sheet open={safetyOpen} onClose={() => setSafetyOpen(false)} title={t('trip.safety')}>
+        <div className={styles.actions}>
+          <a className="btn btn-danger btn-block" href="tel:119">
+            {t('trip.safety.call')}
+          </a>
+          <ShareTripButton block label={t('trip.safety.share')} />
+        </div>
+        <p className="muted">{t('trip.safety.demo')}</p>
+      </Sheet>
 
       <LinkButton to={STEP_PATHS.arrived} block>
         {t('trip.continue')}

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { LinkButton } from '../components/Button'
 import { Notice } from '../components/Notice'
 import { RadioGroup } from '../components/Radio'
@@ -6,16 +5,19 @@ import { useI18n } from '../i18n/I18nContext'
 import { formatLkr } from '../state/mock'
 import { useRide, useVariant } from '../state/RideContext'
 import { STEP_PATHS, bookedFare, fareTotal, flaggedAmount } from '../state/rideMachine'
-import type { FareChange } from '../state/rideMachine'
+import type { FareChange, Rating } from '../state/rideMachine'
 import styles from './Receipt.module.css'
 
 const RATINGS = ['1', '2', '3', '4', '5']
 
+function toRating(value: string): Rating {
+  return Number(value) as Rating
+}
+
 export default function Receipt() {
   const { t } = useI18n()
-  const { state } = useRide()
+  const { state, dispatch } = useRide()
   const variant = useVariant()
-  const [rating, setRating] = useState('')
   const { fare, payment } = state
   const treatment = variant === 'treatment'
 
@@ -87,9 +89,9 @@ export default function Receipt() {
 
       <RadioGroup
         label={t('receipt.rateLabel')}
-        value={rating}
+        value={state.rating ? String(state.rating) : ''}
         options={ratingOptions}
-        onChange={setRating}
+        onChange={(value) => dispatch({ type: 'RATE_TRIP', rating: toRating(value) })}
         orientation="horizontal"
         className={styles.rating}
         optionClassName={styles.star}

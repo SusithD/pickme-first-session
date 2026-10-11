@@ -34,7 +34,7 @@ function rideState(
   peak: boolean,
   extra: Partial<RideState> = {},
 ): Partial<RideState> {
-  return { step, variant, peak, fare: fareFor('tuk', peak), ...extra }
+  return { step, variant, peak, fare: fareFor('tuk', peak, undefined), ...extra }
 }
 
 function amounts(container: HTMLElement): number[] {
@@ -47,23 +47,25 @@ describe('Fare sheet', () => {
   it('breakdown sums to the total with peak on', () => {
     const { container } = renderWith(<Fare />, rideState('fare', 'treatment', true))
     const values = amounts(container)
-    expect(values).toEqual([100, 372, 68, 540])
-    expect(values.slice(0, -1).reduce((sum, value) => sum + value, 0)).toBe(540)
+    expect(values).toEqual([100, 464, 85, 649])
+    expect(values.slice(0, -1).reduce((sum, value) => sum + value, 0)).toBe(649)
     expect(screen.getByText('Peak +15%')).toBeInTheDocument()
   })
 
   it('breakdown sums to the total with peak off and drops the peak line', () => {
     const { container } = renderWith(<Fare />, rideState('fare', 'treatment', false))
     const values = amounts(container)
-    expect(values).toEqual([100, 372, 472])
-    expect(values.slice(0, -1).reduce((sum, value) => sum + value, 0)).toBe(472)
+    expect(values).toEqual([100, 464, 564])
+    expect(values.slice(0, -1).reduce((sum, value) => sum + value, 0)).toBe(564)
     expect(screen.queryByText('Peak +15%')).not.toBeInTheDocument()
   })
 
   it('lists the three things that can change the fare in treatment', () => {
     renderWith(<Fare />, rideState('fare', 'treatment', true))
     expect(screen.getByText('Only three things can change this fare')).toBeInTheDocument()
-    expect(screen.getByText('Waiting over 5 minutes at pickup (LKR 10/min)')).toBeInTheDocument()
+    expect(
+      screen.getByText('Waiting over 5 minutes at pickup (LKR 10 a minute)'),
+    ).toBeInTheDocument()
     expect(screen.getByText('A route change you approve')).toBeInTheDocument()
     expect(screen.getByText('A stop you add')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Got it' })).toBeInTheDocument()
@@ -99,10 +101,10 @@ describe('Trip', () => {
     expect(
       await screen.findByText('Driver took a longer route because of a road closure. +LKR 120.'),
     ).toBeInTheDocument()
-    expect(screen.getByText('Fare so far: LKR 540 (unchanged)')).toBeInTheDocument()
+    expect(screen.getByText('Fare so far: LKR 649 (unchanged)')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Accept' }))
-    expect(screen.getByText('Fare so far: LKR 660')).toBeInTheDocument()
-    expect(screen.getByText('Accepted. New fare LKR 660.')).toBeInTheDocument()
+    expect(screen.getByText('Fare so far: LKR 769')).toBeInTheDocument()
+    expect(screen.getByText('Accepted. New fare LKR 769.')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Accept' })).not.toBeInTheDocument()
   })
 
@@ -115,7 +117,7 @@ describe('Trip', () => {
 
   it('control moves the fare silently with no notice', async () => {
     renderWith(<Trip />, rideState('trip', 'control', true, { scenario: 'routeChange' }))
-    expect(await screen.findByText('Fare so far: LKR 660')).toBeInTheDocument()
+    expect(await screen.findByText('Fare so far: LKR 769')).toBeInTheDocument()
     expect(screen.queryByText(/Driver took a longer route/)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Accept' })).not.toBeInTheDocument()
   })

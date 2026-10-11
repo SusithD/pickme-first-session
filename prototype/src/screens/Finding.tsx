@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button, LinkButton } from '../components/Button'
+import { ShareTripButton } from '../components/ShareTripButton'
 import { LiveRegion } from '../components/LiveRegion'
 import { Notice } from '../components/Notice'
 import { useI18n } from '../i18n/I18nContext'
@@ -20,14 +21,15 @@ export default function Finding() {
   const { state, dispatch } = useRide()
   const variant = useVariant()
   const reducedMotion = useReducedMotion()
-  const { finding, scenario, rideType, peak, fare, driver, permissions } = state
+  const { finding, scenario, rideType, peak, fare, driver, permissions, destination, pickupNote } =
+    state
   const [elapsed, setElapsed] = useState(0)
   const attempts = useRef(0)
   const cancels = useRef(0)
 
   const rideLabel = t(`common.${rideType}` as const).toLowerCase()
   const fareAmount = formatLkr(bookedFare(fare))
-  const flexAmount = formatLkr(bookedFare(fareFor('flex', peak)))
+  const smallCarAmount = formatLkr(bookedFare(fareFor('smallCar', peak, destination)))
 
   useEffect(() => {
     if (finding !== 'searching') return
@@ -69,8 +71,8 @@ export default function Finding() {
     dispatch(searchOutcome(attempts.current, scenario, rideType))
   }
 
-  function tryFlex() {
-    dispatch({ type: 'CHOOSE_RIDE', rideType: 'flex' })
+  function trySmallCar() {
+    dispatch({ type: 'CHOOSE_RIDE', rideType: 'smallCar' })
     dispatch({ type: 'FIND_AGAIN' })
   }
 
@@ -81,7 +83,7 @@ export default function Finding() {
   } else if (finding === 'matched' && driver) {
     politeMessage = `${t('finding.matched')}. ${driver.name}, ${t('finding.eta', { min: driver.etaMin })}`
   } else if (finding === 'none') {
-    politeMessage = t('finding.none', { amount: flexAmount })
+    politeMessage = t('finding.none', { amount: smallCarAmount })
   } else if (finding === 'cancelled') {
     assertiveMessage = t('finding.cancelled', { amount: fareAmount })
   }
@@ -123,9 +125,10 @@ export default function Finding() {
             <p className={styles.driverName}>{driver.name}</p>
             <p>{t('finding.rating', { rating: driver.rating })}</p>
             <p>
-              {driver.vehicle}, {driver.plate}
+              {driver.vehicle}, {t('finding.plate', { plate: driver.plate })}
             </p>
             <p>{t('finding.eta', { min: driver.etaMin })}</p>
+            {pickupNote ? <p>{t('finding.note', { note: pickupNote })}</p> : null}
             <p className={styles.badge}>
               {t('finding.agreed', {
                 method: t(driver.agreedPayment === 'cash' ? 'common.cash' : 'common.card'),
@@ -165,9 +168,7 @@ export default function Finding() {
             <Button variant="secondary" block disabled>
               {t('finding.call')}
             </Button>
-            <Button variant="secondary" block>
-              {t('finding.share')}
-            </Button>
+            <ShareTripButton block label={t('finding.share')} />
             <LinkButton block to={STEP_PATHS.trip}>
               {t('finding.continue')}
             </LinkButton>
@@ -177,10 +178,10 @@ export default function Finding() {
 
       {finding === 'none' ? (
         <>
-          <Notice tone="info">{t('finding.none', { amount: flexAmount })}</Notice>
+          <Notice tone="info">{t('finding.none', { amount: smallCarAmount })}</Notice>
           <div className={styles.actions}>
-            <Button block onClick={tryFlex}>
-              {t('finding.tryFlex')}
+            <Button block onClick={trySmallCar}>
+              {t('finding.trySmallCar')}
             </Button>
             <Button variant="secondary" block onClick={() => dispatch({ type: 'FIND_AGAIN' })}>
               {t('finding.wait')}

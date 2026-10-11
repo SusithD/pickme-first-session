@@ -1,5 +1,12 @@
 import type { Lang } from '../i18n/types'
-import { RIDES, ROUTE_CHANGE_AMOUNT, TICKET_ID, mockDriver } from './mock'
+import {
+  DEFAULT_PLACE,
+  PEAK_PERCENT,
+  RIDES,
+  ROUTE_CHANGE_AMOUNT,
+  TICKET_ID,
+  mockDriver,
+} from './mock'
 import type { Driver, PaymentMethod, Place, RideType } from './mock'
 
 export type Step =
@@ -27,7 +34,8 @@ export type LocationPermission = 'unset' | 'allowed' | 'typed'
 export type NotificationPermission = 'unset' | 'allowed' | 'declined'
 export type MotionPreference = 'system' | 'reduce' | 'allow'
 export type TripEndedBy = 'rider' | 'driver' | 'timeout'
-export type HelpReason = 'fareHigher' | 'cashOnCard' | 'noTrip'
+export type HelpReason = 'fareHigher' | 'cashOnCard' | 'offApp' | 'noTrip'
+export type Rating = 1 | 2 | 3 | 4 | 5
 
 export interface FareChange {
   id: string
@@ -37,6 +45,7 @@ export interface FareChange {
 }
 
 export interface Fare {
+  distanceKm: number
   base: number
   distance: number
   peak: number
@@ -56,6 +65,9 @@ export interface RideState {
   peak: boolean
   reducedMotion: MotionPreference
   signedIn: boolean
+  phone?: string
+  pickupNote?: string
+  rating?: Rating
   permissions: Permissions
   destination?: Place
   rideType: RideType
@@ -79,6 +91,8 @@ export type RideAction =
   | { type: 'SET_REDUCED_MOTION'; preference: MotionPreference }
   | { type: 'SET_LOCATION_PERMISSION'; value: Exclude<LocationPermission, 'unset'> }
   | { type: 'SET_NOTIFICATION_PERMISSION'; value: Exclude<NotificationPermission, 'unset'> }
+  | { type: 'SET_PHONE'; phone: string }
+  | { type: 'SET_PICKUP_NOTE'; note: string }
   | { type: 'SET_DESTINATION'; place: Place }
   | { type: 'CHOOSE_RIDE'; rideType: RideType }
   | { type: 'SET_PAYMENT'; payment: PaymentMethod }
@@ -92,6 +106,7 @@ export type RideAction =
   | { type: 'ACCEPT_CHANGE' }
   | { type: 'DEFER_CHANGE' }
   | { type: 'END_TRIP'; endedBy: TripEndedBy }
+  | { type: 'RATE_TRIP'; rating: Rating }
   | { type: 'OPEN_TICKET'; reason: HelpReason }
   | { type: 'RESET' }
 
@@ -154,12 +169,21 @@ export function nextStep(state: RideState): Step | undefined {
   }
 }
 
-export function fareFor(rideType: RideType, peak: boolean, changes: FareChange[] = []): Fare {
+export function fareFor(
+  rideType: RideType,
+  peak: boolean,
+  place: Place | undefined,
+  changes: FareChange[] = [],
+): Fare {
   const ride = RIDES[rideType]
+  const distanceKm = (place ?? DEFAULT_PLACE).distanceKm
+  const distance = Math.round(ride.perKm * distanceKm)
+  const subtotal = ride.base + distance
   return {
+    distanceKm,
     base: ride.base,
-    distance: ride.distance,
-    peak: peak ? ride.peak : 0,
+    distance,
+    peak: peak ? Math.round((subtotal * PEAK_PERCENT) / 100) : 0,
     changes,
   }
 }
@@ -194,7 +218,7 @@ export function createInitialState(overrides: Partial<RideState> = {}): RideStat
     rideType: 'tuk',
     payment: 'cash',
     booked: false,
-    fare: fareFor('tuk', true),
+    fare: fareFor('tuk', true, undefined),
     finding: 'searching',
     ...overrides,
   }
@@ -223,7 +247,7 @@ export function rideReducer(state: RideState, action: RideAction): RideState {
       return {
         ...state,
         peak: action.peak,
-        fare: fareFor(state.rideType, action.peak, state.fare.changes),
+        fare: fareFor(state.rideType, action.peak, state.destination, state.fare.changes),
       }
     case 'SET_REDUCED_MOTION':
       return { ...state, reducedMotion: action.preference }
@@ -231,13 +255,22 @@ export function rideReducer(state: RideState, action: RideAction): RideState {
       return { ...state, permissions: { ...state.permissions, location: action.value } }
     case 'SET_NOTIFICATION_PERMISSION':
       return { ...state, permissions: { ...state.permissions, notifications: action.value } }
+    case 'SET_PHONE':
+      return { ...state, phone: action.phone }
+    case 'SET_PICKUP_NOTE':
+      return { ...state, pickupNote: action.note }
     case 'SET_DESTINATION':
-      return { ...state, destination: action.place, step: 'ride' }
+      return {
+        ...state,
+        destination: action.place,
+        fare: fareFor(state.rideType, state.peak, action.place, state.fare.changes),
+        step: 'ride',
+      }
     case 'CHOOSE_RIDE':
       return {
         ...state,
         rideType: action.rideType,
-        fare: fareFor(action.rideType, state.peak, state.fare.changes),
+        fare: fareFor(action.rideType, state.peak, state.destination, state.fare.changes),
       }
     case 'SET_PAYMENT':
       return { ...state, payment: action.payment }
@@ -245,7 +278,8 @@ export function rideReducer(state: RideState, action: RideAction): RideState {
       return {
         ...state,
         booked: true,
-        fare: fareFor(state.rideType, state.peak),
+        fare: fareFor(state.rideType, state.peak, state.destination),
+        rating: undefined,
         driver: undefined,
         finding: 'searching',
         routeChangeDecision: undefined,
@@ -294,6 +328,8 @@ export function rideReducer(state: RideState, action: RideAction): RideState {
       }
     case 'END_TRIP':
       return { ...state, endedBy: action.endedBy, step: 'receipt' }
+    case 'RATE_TRIP':
+      return { ...state, rating: action.rating }
     case 'OPEN_TICKET':
       return { ...state, helpReason: action.reason, ticket: TICKET_ID }
     case 'RESET':
@@ -303,7 +339,7 @@ export function rideReducer(state: RideState, action: RideAction): RideState {
         scenario: state.scenario,
         peak: state.peak,
         reducedMotion: state.reducedMotion,
-        fare: fareFor('tuk', state.peak),
+        fare: fareFor('tuk', state.peak, undefined),
       })
   }
 }

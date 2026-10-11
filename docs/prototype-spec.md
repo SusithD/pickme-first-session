@@ -113,11 +113,11 @@ The hero screen. Fare and payment gate.
 
 - **Purpose:** show the fare and take the payment method.
 - **Copy:**
-  - Ride cards: Tuk, Small car and Car, with generic names rather than PickMe's own tier names, and a note "Vehicle may vary." Fares depend on the destination. For Borella (6.2 km, peak on): Tuk LKR 543, Small car LKR 815, Car LKR 1,264. Pickup estimates: Tuk about 5 min, Small car 6, Car 8, longer when peak is on.
+  - Ride cards: Tuk, Small car and Car, with generic names rather than PickMe's own tier names, and a "Vehicle may vary" note on Small car. Fares depend on the destination. For Borella (6.2 km, peak on): Tuk LKR 685, Small car LKR 957, Car LKR 1,300. Pickup estimates: Tuk about 12 min, Small car 9, Car 7.
   - Treatment price label: "Fixed fare". When peak is on, add "Includes peak +15% now" (an invented rate, not PickMe's). Link: "What can change this?" (opens screen 4).
-  - Control price label: "Estimated LKR 543" (the same number as the treatment fare, labelled as an estimate). No breakdown, no link. Both arms quote the same number so price level is not a confound.
+  - Control price label: "Estimated LKR 685" (the same number as the treatment fare, labelled as an estimate). No breakdown, no link. Both arms quote the same number so price level is not a confound.
   - Payment row: Cash (default, selected) / Card. Helper: "Your driver sees the method you chose."
-  - CTA: "Book Tuk · LKR 543" (the CTA label includes the fare and the ride type).
+  - CTA: "Book Tuk · LKR 685 (control: "Book Tuk · est. LKR 685")" (the CTA label includes the fare and the ride type).
 - **States:** default; peak on; peak off; control; treatment.
 - **Interactions:** radiogroup for ride type (arrow keys); radiogroup for payment; CTA goes to screen A3 if not signed in (treatment), otherwise to screen 5.
 - **Serves:** H1, H3.
@@ -127,8 +127,8 @@ The hero screen. Fare and payment gate.
 - **Purpose:** the breakdown and the promise.
 - **Form:** bottom sheet.
 - **Copy (treatment):**
-  - Lines (Tuk, Borella): Base LKR 100; Distance 6.2 km at LKR 60/km LKR 372; Peak +15% LKR 71; Total LKR 543.
-  - Per-km rates: Tuk 60 (base 100), Small car 95 (base 120), Car 145 (base 200). Peak is computed as round(15% of the subtotal).
+  - Lines (Tuk, Borella): Base LKR 100; Distance 6.2 km at LKR 80/km LKR 496; Peak +15% LKR 89; Total LKR 685.
+  - Per-km rates: Tuk 80 (base 100), Small car 110 (base 150), Car 150 (base 200). Peak is computed as round(15% of the subtotal).
   - Section heading: "Only three things can change this fare"
   - Items: waiting over 5 minutes at pickup (LKR 10/min); a route change you approve; a stop you add.
   - Line: "If it changes, you'll see why before you pay."
@@ -151,7 +151,7 @@ Shown after "Book" when not signed in (treatment). Control shows it straight aft
   - Six-digit code, supports paste and autofill (`autocomplete="one-time-code"`), a single input with `inputmode="numeric"` (not six labelled boxes).
   - "Didn't get it? Resend in 60 s", then "Resend" once the wait ends. Hint: "Check the SIM that received the code" for dual-SIM phones.
   - "Wrong number" back link to step 1.
-- **After success:** return to the booking with the fare unchanged: "Still LKR 543".
+- **After success:** return to the booking with the fare unchanged: "Still LKR 685".
 - **Notifications primer:** appears on Finding after the match, not here. Copy: "Turn on alerts to know when your driver arrives."
 - **States:** phone; code; invalid code; resend wait.
 - **Errors:** announced in a live region.
@@ -163,8 +163,8 @@ Shown after "Book" when not signed in (treatment). Control shows it straight aft
 - **Copy:**
   - Loading: "Finding a tuk near you", with elapsed time, and "Cancel, no charge".
   - Matched: driver first name, 4.8 rating, vehicle "Bajaj tuk, blue" with a plate labelled "sample plate", "5 min away" (longer when peak is on), the rider's pickup note, badge "Driver agreed: Cash", masked call button "Call (number hidden)", "Share trip link".
-  - No driver: "No tuk free right now. Try Small car at LKR 815 or wait 2 min" with "no charge".
-  - Driver cancelled: "Your driver cancelled. We're finding another; your fare stays LKR 543, no cancellation fee."
+  - No driver: "No tuk free right now. Try Small car at LKR 957 or wait 2 min" with "no charge".
+  - Driver cancelled: "Your driver cancelled. We're finding another; your fare stays LKR 685, no cancellation fee."
   - Notification primer (after match): "Turn on alerts to know when your driver arrives."
 - **States:** loading; matched; no driver; driver cancelled.
 - **Interactions:** scenario switches from the demo controls. "Continue" goes to screen 6. Live region announces state changes (polite; driver cancelled is assertive). "Skip wait" is always present.
@@ -176,7 +176,7 @@ Shown after "Book" when not signed in (treatment). Control shows it straight aft
 - **Purpose:** in-trip transparency.
 - **Copy:**
   - Stylised route bar (no map SDK): "Fort Railway Station · 25 min" (trip times 20 to 35 min by destination and peak).
-  - "Fare so far: LKR 543 (unchanged)"
+  - "Fare so far: LKR 685 (unchanged)"
   - Buttons: "Share trip", "Safety (hold 3 s)". The Safety screen shows "Police emergency: 119" and the share-trip action.
 - **Route-change notice (treatment):** "Driver took a longer route because of a road closure. +LKR 120." Buttons: "Accept", "Ask at the end".
 - **Control (generic stand-in):** the total changes without a notice.
@@ -200,8 +200,8 @@ Shown after "Book" when not signed in (treatment). Control shows it straight aft
 
 - **Purpose:** explained difference and the pay moment.
 - **Copy:**
-  - As booked: "LKR 543, as booked"
-  - Changed and explained: "LKR 663 · LKR 120 more than booked", with the line "Route change (accepted on trip) +LKR 120".
+  - As booked: "LKR 685, as booked"
+  - Changed and explained: "LKR 805 · LKR 120 more than booked", with the line "Route change (accepted on trip) +LKR 120".
   - Payment: "Pay cash to driver" or "Charged to card ••1234"
   - Rating: 1 to 5
   - Button: "Something's not right"

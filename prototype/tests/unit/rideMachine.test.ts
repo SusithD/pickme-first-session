@@ -12,7 +12,7 @@ import {
   stepFromPath,
 } from '../../src/state/rideMachine'
 import type { RideAction, RideState } from '../../src/state/rideMachine'
-import { PLACES, ROUTE_CHANGE_AMOUNT, TICKET_ID } from '../../src/state/mock'
+import { PLACES, ROUTE_CHANGE_AMOUNT, TICKET_ID, normalisePhone } from '../../src/state/mock'
 
 function run(actions: RideAction[], initial: RideState = createInitialState()): RideState {
   return actions.reduce(rideReducer, initial)
@@ -46,7 +46,7 @@ describe('initial state', () => {
       booked: false,
     })
     expect(state.permissions).toEqual({ location: 'unset', notifications: 'unset' })
-    expect(fareTotal(state.fare)).toBe(540)
+    expect(fareTotal(state.fare)).toBe(649)
   })
 
   it('accepts overrides', () => {
@@ -133,18 +133,18 @@ describe('SET_PEAK and CHOOSE_RIDE', () => {
   it('recomputes the fare with and without peak', () => {
     const off = run([{ type: 'SET_PEAK', peak: false }])
     expect(off.fare.peak).toBe(0)
-    expect(fareTotal(off.fare)).toBe(472)
-    expect(fareTotal(run([{ type: 'SET_PEAK', peak: true }], off).fare)).toBe(540)
+    expect(fareTotal(off.fare)).toBe(564)
+    expect(fareTotal(run([{ type: 'SET_PEAK', peak: true }], off).fare)).toBe(649)
   })
 
   it('prices each ride type', () => {
-    expect(fareTotal(run([{ type: 'CHOOSE_RIDE', rideType: 'flex' }]).fare)).toBe(890)
-    expect(fareTotal(run([{ type: 'CHOOSE_RIDE', rideType: 'car' }]).fare)).toBe(1240)
+    expect(fareTotal(run([{ type: 'CHOOSE_RIDE', rideType: 'smallCar' }]).fare)).toBe(906)
+    expect(fareTotal(run([{ type: 'CHOOSE_RIDE', rideType: 'car' }]).fare)).toBe(1231)
   })
 
   it('keeps existing fare changes when the ride type or peak changes', () => {
     const changed = run([{ type: 'ROUTE_CHANGED' }, { type: 'ACCEPT_CHANGE' }])
-    const flex = run([{ type: 'CHOOSE_RIDE', rideType: 'flex' }], changed)
+    const flex = run([{ type: 'CHOOSE_RIDE', rideType: 'smallCar' }], changed)
     expect(flex.fare.changes).toHaveLength(1)
     const noPeak = run([{ type: 'SET_PEAK', peak: false }], changed)
     expect(noPeak.fare.changes).toHaveLength(1)
@@ -187,7 +187,7 @@ describe('BOOK and SIGN_IN', () => {
     expect(state.step).toBe('verify')
     expect(state.booked).toBe(true)
     expect(state.finding).toBe('searching')
-    expect(fareTotal(state.fare)).toBe(540)
+    expect(fareTotal(state.fare)).toBe(649)
   })
 
   it('SIGN_IN after booking continues to finding', () => {
@@ -244,7 +244,7 @@ describe('finding actions', () => {
     const state = run([{ type: 'DRIVER_FOUND' }, { type: 'DRIVER_CANCELLED' }])
     expect(state.finding).toBe('cancelled')
     expect(state.driver).toBeUndefined()
-    expect(fareTotal(state.fare)).toBe(540)
+    expect(fareTotal(state.fare)).toBe(649)
   })
 
   it('FIND_AGAIN returns to searching', () => {
@@ -258,13 +258,13 @@ describe('route change actions', () => {
     expect(state.fare.changes).toEqual([
       { id: 'route-1', kind: 'route', amount: ROUTE_CHANGE_AMOUNT, status: 'pending' },
     ])
-    expect(fareTotal(state.fare)).toBe(540)
+    expect(fareTotal(state.fare)).toBe(649)
   })
 
   it('ROUTE_CHANGED silently moves the total in control', () => {
     const state = run([{ type: 'ROUTE_CHANGED' }], createInitialState({ variant: 'control' }))
     expect(state.fare.changes[0]?.status).toBe('silent')
-    expect(fareTotal(state.fare)).toBe(660)
+    expect(fareTotal(state.fare)).toBe(769)
   })
 
   it('ROUTE_CHANGED is idempotent', () => {
@@ -274,8 +274,8 @@ describe('route change actions', () => {
   it('ACCEPT_CHANGE adds the amount to the total', () => {
     const state = run([{ type: 'ROUTE_CHANGED' }, { type: 'ACCEPT_CHANGE' }])
     expect(state.routeChangeDecision).toBe('accepted')
-    expect(fareTotal(state.fare)).toBe(660)
-    expect(bookedFare(state.fare)).toBe(540)
+    expect(fareTotal(state.fare)).toBe(769)
+    expect(bookedFare(state.fare)).toBe(649)
     expect(flaggedAmount(state.fare)).toBe(0)
   })
 
@@ -333,6 +333,48 @@ describe('RESET', () => {
     })
     expect(dirty.destination).toBeUndefined()
     expect(dirty.ticket).toBeUndefined()
-    expect(fareTotal(dirty.fare)).toBe(472)
+    expect(fareTotal(dirty.fare)).toBe(564)
+  })
+})
+
+describe('per-place fares', () => {
+  it('prices each destination from its own distance', () => {
+    const totals = PLACES.map((place) => fareTotal(run([{ type: 'SET_DESTINATION', place }]).fare))
+    expect(new Set(totals).size).toBe(PLACES.length)
+    const wellawatte = PLACES.find((place) => place.id === 'wellawatte')!
+    const state = run([{ type: 'SET_DESTINATION', place: wellawatte }])
+    expect(state.fare).toMatchObject({ base: 100, distance: 248, peak: 52, distanceKm: 3.1 })
+  })
+
+  it('keeps the fare when the ride type changes after choosing a place', () => {
+    const state = run([
+      { type: 'SET_DESTINATION', place: PLACES[4]! },
+      { type: 'CHOOSE_RIDE', rideType: 'car' },
+    ])
+    expect(state.fare.distance).toBe(Math.round(150 * 10.4))
+  })
+})
+
+describe('phone, pickup note and rating', () => {
+  it('stores each', () => {
+    const state = run([
+      { type: 'SET_PHONE', phone: '771234567' },
+      { type: 'SET_PICKUP_NOTE', note: 'Blue gate' },
+      { type: 'RATE_TRIP', rating: 4 },
+    ])
+    expect(state).toMatchObject({ phone: '771234567', pickupNote: 'Blue gate', rating: 4 })
+    const reset = run([{ type: 'RESET' }], state)
+    expect(reset.phone).toBeUndefined()
+    expect(reset.pickupNote).toBeUndefined()
+    expect(reset.rating).toBeUndefined()
+  })
+
+  it('normalises Sri Lankan numbers', () => {
+    expect(normalisePhone('077 123 4567')).toBe('771234567')
+    expect(normalisePhone('+94 77 123 4567')).toBe('771234567')
+    expect(normalisePhone('94771234567')).toBe('771234567')
+    expect(normalisePhone('771234567')).toBe('771234567')
+    expect(normalisePhone('7712')).toBeUndefined()
+    expect(normalisePhone('0771234')).toBeUndefined()
   })
 })

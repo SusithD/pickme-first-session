@@ -68,11 +68,15 @@ describe('Welcome (A1)', () => {
     await user.click(screen.getByRole('button', { name: 'Continue' }))
     const input = screen.getByRole('textbox', { name: 'Mobile number' })
     expect(input).toHaveAttribute('aria-invalid', 'true')
-    expect(input).toHaveAccessibleDescription(expect.stringContaining('Enter 9 digits after +94.'))
-    expect(screen.getByRole('alert')).toHaveTextContent('Enter 9 digits after +94.')
+    expect(input).toHaveAccessibleDescription(
+      expect.stringContaining('Enter a Sri Lankan mobile number, for example 77 123 4567.'),
+    )
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Enter a Sri Lankan mobile number, for example 77 123 4567.',
+    )
   })
 
-  it('control moves to the verify route with the phone carried in router state', async () => {
+  it('control moves to the verify route with the phone stored in state', async () => {
     const user = userEvent.setup()
     render(
       <MemoryRouter initialEntries={['/welcome']}>
@@ -103,7 +107,9 @@ describe('Verify (A3)', () => {
     await user.type(phone, '77 12')
     await user.click(screen.getByRole('button', { name: 'Send code' }))
     expect(phone).toHaveAttribute('aria-invalid', 'true')
-    expect(screen.getByRole('alert')).toHaveTextContent('Enter 9 digits after +94.')
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Enter a Sri Lankan mobile number, for example 77 123 4567.',
+    )
 
     await user.clear(phone)
     await user.type(phone, '77 123 4567')
@@ -142,7 +148,7 @@ describe('Verify (A3)', () => {
     await user.type(screen.getByRole('textbox', { name: '6-digit code' }), '123456')
     await user.click(screen.getByRole('button', { name: 'Confirm' }))
     expect(screen.getByText('Number confirmed.')).toBeInTheDocument()
-    expect(screen.getByText('Still LKR 540')).toBeInTheDocument()
+    expect(screen.getByText('Still LKR 649')).toBeInTheDocument()
     expect(screen.getByTestId('signed-in')).toHaveTextContent('false')
     await user.click(screen.getByRole('button', { name: 'Continue' }))
     expect(screen.getByTestId('signed-in')).toHaveTextContent('true')
@@ -166,13 +172,13 @@ describe('Verify (A3)', () => {
       target: { value: '771234567' },
     })
     fireEvent.click(screen.getByRole('button', { name: 'Send code' }))
-    expect(screen.getByText('Didn’t get it? Resend in 30 s')).toBeInTheDocument()
+    expect(screen.getByText('Didn’t get it? Resend in 60 s')).toBeInTheDocument()
     act(() => {
-      vi.advanceTimersByTime(30_000)
+      vi.advanceTimersByTime(60_000)
     })
     expect(screen.getByRole('button', { name: 'Resend code' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Resend code' }))
-    expect(screen.getByText('Didn’t get it? Resend in 30 s')).toBeInTheDocument()
+    expect(screen.getByText('Didn’t get it? Resend in 60 s')).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Wrong number' }))
     expect(screen.getByRole('textbox', { name: 'Mobile number' })).toHaveValue('771234567')

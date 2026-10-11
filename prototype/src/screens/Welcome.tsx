@@ -5,11 +5,10 @@ import { Button, LinkButton } from '../components/Button'
 import { LangToggle } from '../components/LangToggle'
 import { LiveRegion } from '../components/LiveRegion'
 import { useI18n } from '../i18n/I18nContext'
+import { normalisePhone } from '../state/mock'
 import { useRide } from '../state/RideContext'
 import { STEP_PATHS, nextStep } from '../state/rideMachine'
 import styles from './Welcome.module.css'
-
-const PHONE_PATTERN = /^\d{9}$/
 
 export default function Welcome() {
   const { state } = useRide()
@@ -38,9 +37,9 @@ function TreatmentWelcome() {
 
 function ControlWelcome() {
   const { t } = useI18n()
-  const { state } = useRide()
+  const { state, dispatch } = useRide()
   const navigate = useNavigate()
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState(state.phone ?? '')
   const [phoneError, setPhoneError] = useState<string | undefined>()
   const inputId = useId()
   const hintId = useId()
@@ -49,13 +48,14 @@ function ControlWelcome() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const digits = phone.replace(/\s/g, '')
-    if (!PHONE_PATTERN.test(digits)) {
+    const digits = normalisePhone(phone)
+    if (!digits) {
       setPhoneError(t('verify.phoneError'))
       return
     }
     setPhoneError(undefined)
-    navigate(next ? STEP_PATHS[next] : STEP_PATHS.welcome, { state: { phone: digits } })
+    dispatch({ type: 'SET_PHONE', phone: digits })
+    navigate(next ? STEP_PATHS[next] : STEP_PATHS.welcome)
   }
 
   return (
@@ -77,7 +77,7 @@ function ControlWelcome() {
               value={phone}
               aria-invalid={phoneError ? true : undefined}
               aria-describedby={phoneError ? `${hintId} ${errorId}` : hintId}
-              onChange={(event) => setPhone(event.target.value.replace(/[^\d\s]/g, ''))}
+              onChange={(event) => setPhone(event.target.value.replace(/[^\d\s+]/g, ''))}
             />
           </div>
           <p id={hintId} className={styles.hint}>

@@ -105,12 +105,12 @@ describe('Finding screen', () => {
     advance(MATCH_DELAY_MS)
     expect(readProbe().finding).toBe('none')
     expect(
-      screen.getAllByText(/No tuk free right now\. Try Flex at LKR 890/).length,
+      screen.getAllByText(/No tuk free right now\. Try Small car at LKR 906/).length,
     ).toBeGreaterThan(0)
     expect(screen.getAllByText(/You have not been charged/).length).toBeGreaterThan(0)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Try Flex' }))
-    expect(readProbe().rideType).toBe('flex')
+    fireEvent.click(screen.getByRole('button', { name: 'Try Small car' }))
+    expect(readProbe().rideType).toBe('smallCar')
     expect(readProbe().finding).toBe('searching')
     advance(MATCH_DELAY_MS)
     expect(readProbe().finding).toBe('matched')
@@ -124,7 +124,7 @@ describe('Finding screen', () => {
     advance(DRIVER_CANCEL_DELAY_MS)
     expect(readProbe().finding).toBe('cancelled')
     expect(screen.getByRole('alert')).toHaveTextContent(
-      'Your driver cancelled. We’re finding another; your fare stays LKR 540, no cancellation fee.',
+      'Your driver cancelled. We’re finding another; your fare stays LKR 649, no cancellation fee.',
     )
 
     advance(MATCH_DELAY_MS * 2)
@@ -171,7 +171,7 @@ describe('Arrived screen', () => {
     renderScreen(<Arrived />, {
       step: 'arrived',
       variant: 'treatment',
-      destination: { id: 'fort', name: 'Fort Railway Station' },
+      destination: { id: 'fort', name: 'Fort Railway Station', distanceKm: 5.8, tripMinutes: 25 },
     })
     expect(
       screen.getByRole('heading', { level: 1, name: 'Have you arrived at Fort Railway Station?' }),

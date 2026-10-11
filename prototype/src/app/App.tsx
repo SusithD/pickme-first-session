@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { DemoControls } from '../components/DemoControls'
 import { PhoneFrame } from '../components/PhoneFrame'
+import { useFocusReturn } from '../state/FocusReturn'
 import { useRide } from '../state/RideContext'
 import { STEP_PATHS, stepFromPath } from '../state/rideMachine'
 import { routes } from './routes'
@@ -11,6 +12,7 @@ function useRouteSync() {
   const navigate = useNavigate()
   const { state, dispatch } = useRide()
   const firstRender = useRef(true)
+  const focusReturn = useFocusReturn()
 
   useEffect(() => {
     const step = stepFromPath(pathname)
@@ -29,11 +31,18 @@ function useRouteSync() {
       firstRender.current = false
       return
     }
+    if (document.querySelector('main [role="dialog"]')) return
+    const returnId = focusReturn.take()
+    const returnTarget = returnId ? document.getElementById(returnId) : null
+    if (returnTarget) {
+      returnTarget.focus()
+      return
+    }
     const heading = document.querySelector<HTMLElement>('main h1')
     if (!heading) return
     heading.tabIndex = -1
     heading.focus({ preventScroll: false })
-  }, [pathname])
+  }, [pathname, focusReturn])
 
   useEffect(() => {
     const root = document.documentElement

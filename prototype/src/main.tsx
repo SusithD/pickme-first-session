@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
 import { App } from './app/App'
 import { I18nProvider } from './i18n/I18nContext'
+import { FocusReturnProvider } from './state/FocusReturn'
 import { RideProvider } from './state/RideContext'
 import './styles/tokens.css'
 import './styles/base.css'
@@ -16,7 +17,9 @@ createRoot(container).render(
     <HashRouter>
       <RideProvider>
         <I18nProvider>
-          <App />
+          <FocusReturnProvider>
+            <App />
+          </FocusReturnProvider>
         </I18nProvider>
       </RideProvider>
     </HashRouter>

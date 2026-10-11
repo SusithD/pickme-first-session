@@ -45,7 +45,7 @@ function receiptState(
     step: 'receipt',
     variant,
     peak: true,
-    fare: fareFor('tuk', true, changes),
+    fare: fareFor('tuk', true, undefined, changes),
     ...extra,
   }
 }
@@ -58,14 +58,14 @@ describe('Receipt', () => {
   it('shows the booked fare with no change lines when nothing changed', () => {
     renderWith(<Receipt />, receiptState('treatment'))
     expect(screen.getByRole('heading', { level: 1, name: 'Your fare' })).toBeInTheDocument()
-    expect(screen.getByText('LKR 540, as booked')).toBeInTheDocument()
+    expect(screen.getByText('LKR 649, as booked')).toBeInTheDocument()
     expect(screen.queryByText('Changes on this trip')).not.toBeInTheDocument()
     expect(screen.getByText('Pay cash to driver')).toBeInTheDocument()
   })
 
   it('explains an accepted change with a line per change and the delta', () => {
     renderWith(<Receipt />, receiptState('treatment', [accepted]))
-    expect(screen.getByText('LKR 660 · LKR 120 more than booked')).toBeInTheDocument()
+    expect(screen.getByText('LKR 769 · LKR 120 more than booked')).toBeInTheDocument()
     expect(screen.getByText('Route change (accepted on trip)')).toBeInTheDocument()
     expect(screen.getByText('+LKR 120')).toBeInTheDocument()
     expect(screen.queryByText(/on hold/)).not.toBeInTheDocument()
@@ -73,7 +73,7 @@ describe('Receipt', () => {
 
   it('shows a flagged change as on hold and leaves it out of the payable amount', () => {
     renderWith(<Receipt />, receiptState('treatment', [askLater]))
-    expect(screen.getByText('LKR 540, as booked')).toBeInTheDocument()
+    expect(screen.getByText('LKR 649, as booked')).toBeInTheDocument()
     expect(screen.getByText('Route change (flagged, on hold)')).toBeInTheDocument()
     expect(
       screen.getByText('You flagged the route change. LKR 120 is on hold until we reply.'),
@@ -82,7 +82,7 @@ describe('Receipt', () => {
 
   it('control shows only the moved total with no explanation lines', () => {
     renderWith(<Receipt />, receiptState('control', [silent]))
-    expect(screen.getByText('LKR 660')).toBeInTheDocument()
+    expect(screen.getByText('LKR 769')).toBeInTheDocument()
     expect(screen.queryByText(/more than booked/)).not.toBeInTheDocument()
     expect(screen.queryByText(/Route change/)).not.toBeInTheDocument()
     expect(screen.queryByText('Changes on this trip')).not.toBeInTheDocument()
@@ -125,9 +125,9 @@ describe('Help', () => {
       screen.getByRole('radio', { name: 'Driver asked for cash on a card trip' }),
     ).toHaveAttribute('aria-checked', 'true')
     await user.click(screen.getByRole('button', { name: 'Send' }))
-    expect(readProbe().ticket).toBe('PM-4821')
+    expect(readProbe().ticket).toBe('TKT-4821')
     expect(screen.getByRole('status')).toHaveTextContent(
-      'Ticket #PM-4821 opened. We reply within 24 hours.',
+      'Ticket #TKT-4821 opened. We reply within 24 hours.',
     )
     expect(screen.queryByText(/is on hold/)).not.toBeInTheDocument()
   })

@@ -101,7 +101,7 @@ Not resolved by desk research; each needs a local check (teardown, drivers, ride
 - **Tolls and parking.** Expressway tolls and parking are commonly paid in cash on top of the fare. Does the "only three things can change this fare" promise need a fourth line, or a statement that tolls are paid separately?
 - **Night surcharge.** A night charge after 10 pm is reported for tuks (Yamu, unverified). It is not in the prototype's fare logic.
 - **Meter versus app fare.** Drivers may say "meter on" or ask for extra because the app rate is low. The fare promise must handle this.
-- **Exact change.** Paying LKR 543 in cash raises change and rounding. A round-to-10 convention or a "Have exact change?" hint may be needed. Wallets, QR and bill-to-mobile are not in the prototype.
+- **Exact change.** Paying LKR 685 in cash raises change and rounding. A round-to-10 convention or a "Have exact change?" hint may be needed. Wallets, QR and bill-to-mobile are not in the prototype.
 - **Return fare.** Drivers going to the suburbs may ask for a return fare.
 - **Data cost and low-end phones.** The prototype loads Google Fonts for Sinhala and Tamil, which costs data on prepaid plans. Test on a 2 GB RAM Android Go phone and consider system fonts.
 - **Safety for lone riders at night.** Share-trip defaults and a women-driver preference are not covered.
