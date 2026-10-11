@@ -1,6 +1,6 @@
 # Next steps
 
-Status as of 2026-10-11. The work so far is desk research only: about 30 public reviews and posts, a six-app benchmark (Uber, Grab, Gojek, Careem, Bolt, Rapido), a funnel model built from labelled assumptions, a coded prototype and an A/B plan. There has been no teardown, no interviews and no access to PickMe data. Primary research comes first because every H-level decision currently rests on public reviews and assumed rates.
+Status as of 2026-10-11. The work so far is desk research only: about 30 public reviews and posts (several seen only as snippets), a six-app benchmark (Uber, Grab, Gojek, Careem, Bolt, Rapido), a funnel map with no invented rates, a coded prototype and an A/B plan. There has been no teardown, no interviews and no access to PickMe data. Primary research comes first because every H-level decision currently rests on reviewer reports and assumptions.
 
 Not affiliated with PickMe (Digital Mobility Solutions Lanka).
 
@@ -32,7 +32,7 @@ Source: `research/04-interview-guide.md`. Status: not yet run.
 
 ### 1.3 Play Store review scrape
 
-Status: not started. Google Play was not verified in the review mining (the listing fetch returned no reviews; the only figure is an aggregate of 3.23 from 521 ratings).
+Status: not started. Google Play reviews were not read at all in the review mining (the listing fetch failed; the only figure is an aggregate of 3.23 from 521 ratings).
 
 - Read Google Play reviews sorted by newest, for the same period as the App Store and Trustpilot sample (2025 to 2026).
 - Search or scan for the terms behind the gaps in `research/02-review-mining.md`: "OTP", "verify", "login", "location", "permission", "fare", "cash", "card", "end trip", "support".
@@ -42,7 +42,15 @@ Status: not started. Google Play was not verified in the review mining (the list
 - **Output:** an update to `research/02-review-mining.md` with the new counts marked as Play, and any change to the top-five friction ranking flagged.
 - **Decision this informs:** whether the signup and permission theme (currently zero evidence) changes, which would change the H5 priority.
 
-### 1.4 Native-speaker review of Sinhala and Tamil
+### 1.4 Usability test of the live prototype
+
+Status: not started. Run before the interviews, because it needs no PickMe access.
+
+- Five moderated sessions on the live prototype, in Sinhala and English, on a phone.
+- Test whether riders understand "What can change this?" and the receipt delta, and whether the Control variant reads as an ordinary estimate.
+- **Output:** three findings and the changes made, recorded in `docs/decisions.md`.
+
+### 1.5 Native-speaker review of Sinhala and Tamil
 
 Status: not started. Every Sinhala and Tamil string is a machine draft and is flagged `reviewStatus: 'machine-draft, needs native review'` in the code.
 
@@ -52,45 +60,56 @@ Status: not started. Every Sinhala and Tamil string is a machine draft and is fl
 - Record the reviewer's name or initials, date and changes in a review log. The app footnote can only change from "draft" to "reviewed" after this.
 - **Output:** corrected string files and an updated `reviewStatus`.
 
-### 1.5 Pre-launch checks on secondary figures
+### 1.6 Pre-launch checks on secondary figures
 
 These do not block the prototype but they do block any real test.
 
-- The experiment plan uses the FY24/25 peak of more than 250,000 new consumers in one month. It is a secondary news summary. Check it against the FY25/26 results release and the investor relations site.
+- The experiment plan's traffic scenarios lean on the FY24/25 peak of more than 250,000 new consumers in one month. It is a secondary news summary. Check it against the FY25/26 results release and the investor relations site.
 - The founding year and founder name conflict across sources (see `research/01-context.md`). Do not repeat either in the case study until checked against the prospectus.
 
 ## 2. H2 and H3 tests (after the H1 readout)
 
-Only start these once H1 has closed and its decision is recorded in `docs/decisions.md`. H5 is designed (see `docs/experiment-plan.md`, section 2) and can run in the same window, but as a separate test with its own assignment.
+Only start these once H1 has closed and its decision is recorded in `docs/decisions.md`. H5 is specified in `docs/experiment-plan.md`, section 2. It does not run concurrently with H1, because both would assign the same riders.
 
 ### 2.1 H2: rider-side trip end
 
-- **Hypothesis:** if the rider can confirm "I've arrived" and end the trip when the driver has not ended it within 60 seconds, then disputed fares and card overcharges fall. ICE 21, stages S7 and S8.
-- **Why next:** it costs drivers nothing (the H1 kill rule points here if driver acceptance breaches).
+- **Hypothesis:** if the rider can confirm "I've arrived" and end the trip when the driver has not ended it within 60 seconds, then disputed fares and card overcharges fall. Stages S7 and S8.
+- **Why next:** lower driver-earnings risk than H1, though it still needs a driver-side change and can cost a driver a legitimate fare if a trip is closed early.
 - **Primary metric:** disputes raised within 24 h of trip end per 100 trips (lower is better), with S8 as the secondary metric.
 - **Prerequisites:** the `trip_ended_by` event (with `by` and `minutes_after_arrival`) must be live in the control arm first, so the baseline rate of driver-only ends is measured, not assumed.
 - **Sample size:** same method as H1 (two-proportion test). The baseline dispute rate is unknown; it must come from the control arm's first two weeks, not from an assumed number.
 
 ### 2.2 H3: payment agreed before pickup
 
-- **Hypothesis:** if the payment method is chosen on the booking screen with cash as a first-class option, and the driver's acceptance shows "driver has agreed: card", then cash-demand incidents and cancellations fall. ICE 20, stages S5, S6 and S7.
+- **Hypothesis:** if the payment method is chosen on the booking screen with cash as a first-class option, and the driver's acceptance shows "driver has agreed: card", then cash-demand incidents and cancellations fall. Stages S5, S6 and S7.
 - **Primary metric:** cash-demand incidents per 100 card trips, from `help_reason = cash_on_card` and a driver-side report, if one is available.
 - **Prerequisites:** the `payment` property on `booking_confirmed` and a defined way to log a cash demand (rider report or driver report), agreed before the test starts.
 - **Guardrails:** same as H1, plus driver acceptance rate for card-only bookings.
 
 ### 2.3 Order and attribution
 
-1. H1 (primary bet) runs first, alone or with H5 (separate assignments).
-2. H2 next, because it has the fewest driver-side risks.
-3. H3 after H2, once the driver-side guardrail data from H1 and H2 is available.
+1. H1 (primary bet) runs first, alone.
+2. H2 next (H4, the dispute route, follows on top of H1's receipt), because it carries lower driver-earnings risk than H1.
+3. H3 and H5 after that, once driver-side guardrail data from H1 and H2 is available.
 
 Each test gets its own `test_id`, its own assignment and its own readout, so a result can be attributed to one change.
 
-## 3. Repository and portfolio follow-ups
+## 3. Open local questions
 
-These are part of the build plan, not separate research, and are tracked in `PLAN.md` section 8.
+Not resolved by desk research; each needs a local check (teardown, drivers, riders) before a live test.
 
-- Prototype build (T1 to T8, T12) and the 13-screen flow, including Part A (Welcome, Location, Confirm your number).
-- Repository: `SusithD/pickme-first-session` with the D14 description; GitHub Pages from the `pages.yml` workflow; first deploy confirmed at `https://susithd.github.io/pickme-first-session/`.
-- Review panels (plan section 9) after the docs, after the prototype and on the case study.
-- Portfolio entry (T11) using counts only, with no outcome claims until a test has run.
+- **Tolls and parking.** Expressway tolls and parking are commonly paid in cash on top of the fare. Does the "only three things can change this fare" promise need a fourth line, or a statement that tolls are paid separately?
+- **Night surcharge.** A night charge after 10 pm is reported for tuks (Yamu, unverified). It is not in the prototype's fare logic.
+- **Meter versus app fare.** Drivers may say "meter on" or ask for extra because the app rate is low. The fare promise must handle this.
+- **Exact change.** Paying LKR 543 in cash raises change and rounding. A round-to-10 convention or a "Have exact change?" hint may be needed. Wallets, QR and bill-to-mobile are not in the prototype.
+- **Return fare.** Drivers going to the suburbs may ask for a return fare.
+- **Data cost and low-end phones.** The prototype loads Google Fonts for Sinhala and Tamil, which costs data on prepaid plans. Test on a 2 GB RAM Android Go phone and consider system fonts.
+- **Safety for lone riders at night.** Share-trip defaults and a women-driver preference are not covered.
+- **Fuel-price repricing.** Fares change with fuel prices; a fixed-fare rule must say when the rate card updates.
+
+## 4. Repository follow-ups
+
+These are tracked in `PLAN.md` section 8.
+
+- Prototype fixes from the local-market review (per-destination fares, peak as 15% of the subtotal, realistic trip times, generic ride names).
+- Review panels after the docs and after the prototype.
