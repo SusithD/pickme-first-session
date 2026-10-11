@@ -141,6 +141,30 @@ test.describe('axe on interactive states', () => {
     await expect(page.getByRole('dialog')).toBeVisible()
     expect(await scan(page)).toEqual([])
   })
+
+  test('demo select menu open / desktop panel', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await open(page, 'intro')
+    const box = page.getByRole('complementary').getByRole('combobox', { name: 'Scenario' })
+    await box.click()
+    await expect(page.getByRole('listbox')).toBeVisible()
+    await expect(box).toHaveAttribute('aria-activedescendant', /.+/)
+    expect(await scan(page)).toEqual([])
+  })
+
+  test('demo select menu open / mobile sheet', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await open(page, 'ride')
+    await press(page, page.getByRole('button', { name: 'Demo', exact: true }))
+    const box = page.getByRole('dialog').getByRole('combobox', { name: 'Scenario' })
+    await box.click()
+    await expect(page.getByRole('listbox')).toBeVisible()
+    expect(await scan(page)).toEqual([])
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('listbox')).toBeHidden()
+    await expect(page.getByRole('dialog')).toBeVisible()
+    await expect(box).toBeFocused()
+  })
 })
 
 test.describe('target size', () => {
@@ -155,7 +179,7 @@ test.describe('target size', () => {
         const small = await page.evaluate(() =>
           Array.from(
             document.querySelectorAll<HTMLElement>(
-              'main button, main a.btn, main input, main select, main [role="radio"], aside input, aside select, aside button',
+              'main button, main a.btn, main input, main select, main [role="radio"], aside input, aside select, aside button, aside [role="combobox"]',
             ),
           )
             .filter((el) => el.offsetParent !== null && !el.closest('[aria-hidden="true"]'))

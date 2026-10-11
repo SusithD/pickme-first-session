@@ -5,7 +5,8 @@ import type { Lang } from '../i18n/types'
 import { useRide } from '../state/RideContext'
 import type { MotionPreference, Scenario, Variant } from '../state/rideMachine'
 import { Button } from './Button'
-import { IconChevronDown } from './icons'
+import { Select } from './Select'
+import type { SelectOption } from './Select'
 import { Sheet } from './Sheet'
 import { VariantChip } from './VariantChip'
 
@@ -34,6 +35,18 @@ export function useIsMobile(): boolean {
 function Controls() {
   const { t } = useI18n()
   const { state, dispatch } = useRide()
+  const scenarioOptions: SelectOption<Scenario>[] = SCENARIOS.map((scenario) => ({
+    value: scenario,
+    label: t(`demo.scenario.${scenario}` as const),
+  }))
+  const langOptions: SelectOption<Lang>[] = LANGS.map((lang) => ({
+    value: lang.code,
+    label: lang.long,
+  }))
+  const motionOptions: SelectOption<MotionPreference>[] = MOTION.map((preference) => ({
+    value: preference,
+    label: t(`demo.motion.${preference}` as const),
+  }))
 
   return (
     <form className="demo-form" onSubmit={(event) => event.preventDefault()}>
@@ -69,66 +82,29 @@ function Controls() {
         />
       </label>
 
-      <label className="demo-field">
-        <span className="field-label">{t('demo.scenario')}</span>
-        <span className="select-wrap">
-          <select
-            className="form-input"
-            value={state.scenario}
-            onChange={(event) =>
-              dispatch({ type: 'SET_SCENARIO', scenario: event.target.value as Scenario })
-            }
-          >
-            {SCENARIOS.map((scenario) => (
-              <option key={scenario} value={scenario}>
-                {t(`demo.scenario.${scenario}` as const)}
-              </option>
-            ))}
-          </select>
-          <IconChevronDown size={18} className="select-chevron" />
-        </span>
-      </label>
+      <Select
+        id="demo-scenario"
+        label={t('demo.scenario')}
+        value={state.scenario}
+        options={scenarioOptions}
+        onChange={(scenario) => dispatch({ type: 'SET_SCENARIO', scenario })}
+      />
 
-      <label className="demo-field">
-        <span className="field-label">{t('demo.language')}</span>
-        <span className="select-wrap">
-          <select
-            className="form-input"
-            value={state.lang}
-            onChange={(event) => dispatch({ type: 'SET_LANG', lang: event.target.value as Lang })}
-          >
-            {LANGS.map((lang) => (
-              <option key={lang.code} value={lang.code}>
-                {lang.long}
-              </option>
-            ))}
-          </select>
-          <IconChevronDown size={18} className="select-chevron" />
-        </span>
-      </label>
+      <Select
+        id="demo-language"
+        label={t('demo.language')}
+        value={state.lang}
+        options={langOptions}
+        onChange={(lang) => dispatch({ type: 'SET_LANG', lang })}
+      />
 
-      <label className="demo-field">
-        <span className="field-label">{t('demo.motion')}</span>
-        <span className="select-wrap">
-          <select
-            className="form-input"
-            value={state.reducedMotion}
-            onChange={(event) =>
-              dispatch({
-                type: 'SET_REDUCED_MOTION',
-                preference: event.target.value as MotionPreference,
-              })
-            }
-          >
-            {MOTION.map((preference) => (
-              <option key={preference} value={preference}>
-                {t(`demo.motion.${preference}` as const)}
-              </option>
-            ))}
-          </select>
-          <IconChevronDown size={18} className="select-chevron" />
-        </span>
-      </label>
+      <Select
+        id="demo-motion"
+        label={t('demo.motion')}
+        value={state.reducedMotion}
+        options={motionOptions}
+        onChange={(preference) => dispatch({ type: 'SET_REDUCED_MOTION', preference })}
+      />
 
       <Button variant="secondary" block onClick={() => dispatch({ type: 'RESET' })}>
         {t('demo.restart')}

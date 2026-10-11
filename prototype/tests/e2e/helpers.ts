@@ -86,6 +86,15 @@ async function demoPanel(page: Page): Promise<{ panel: Locator; close: () => Pro
   return { panel: page.getByRole('complementary'), close: async () => undefined }
 }
 
+const LANG_LABEL: Record<Lang, string> = { en: 'English', si: 'සිංහල', ta: 'தமிழ்' }
+
+async function chooseOption(page: Page, combobox: Locator, name: string): Promise<void> {
+  await combobox.click()
+  await expect(combobox).toHaveAttribute('aria-expanded', 'true')
+  await page.getByRole('option', { name, exact: true }).click()
+  await expect(combobox).toHaveAttribute('aria-expanded', 'false')
+}
+
 export interface DemoSettings {
   variant?: Variant
   scenario?: Scenario
@@ -110,10 +119,18 @@ export async function setDemo(page: Page, settings: DemoSettings): Promise<void>
     expect(await box.isChecked()).toBe(settings.peak)
   }
   if (settings.scenario) {
-    await panel.getByLabel('Scenario').selectOption({ label: SCENARIO_LABEL[settings.scenario] })
+    await chooseOption(
+      page,
+      panel.getByRole('combobox', { name: 'Scenario' }),
+      SCENARIO_LABEL[settings.scenario],
+    )
   }
   if (settings.lang) {
-    await panel.getByLabel(/Language|භාෂාව|மொழி/).selectOption(settings.lang)
+    await chooseOption(
+      page,
+      panel.getByRole('combobox', { name: /Language|භාෂාව|மொழி/ }),
+      LANG_LABEL[settings.lang],
+    )
     await expect(page.locator('html')).toHaveAttribute('lang', settings.lang)
   }
   await close()
