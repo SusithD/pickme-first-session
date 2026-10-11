@@ -2,6 +2,7 @@ import { useEffect, useId, useRef } from 'react'
 import type { ReactNode } from 'react'
 import { IconClose } from './icons'
 import { useI18n } from '../i18n/I18nContext'
+import { useEmbed } from '../state/EmbedContext'
 
 interface SheetProps {
   open: boolean
@@ -25,6 +26,7 @@ export function Sheet({
 }: SheetProps) {
   const Heading = headingLevel
   const { t } = useI18n()
+  const { quiet } = useEmbed()
   const titleId = useId()
   const panelRef = useRef<HTMLDivElement>(null)
   const onCloseRef = useRef(onClose)
@@ -38,7 +40,7 @@ export function Sheet({
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const panel = panelRef.current
     const first = panel?.querySelector<HTMLElement>(FOCUSABLE)
-    ;(first ?? panel)?.focus()
+    if (!quiet()) (first ?? panel)?.focus()
 
     function handleKeyDown(event: KeyboardEvent) {
       if (!panel) return
@@ -72,7 +74,7 @@ export function Sheet({
       document.removeEventListener('keydown', handleKeyDown)
       previous?.focus()
     }
-  }, [open])
+  }, [open, quiet])
 
   if (!open) return null
 

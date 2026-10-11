@@ -1616,3 +1616,54 @@
   background: transparent;
   color: var(--ink-2);
 }
+
+html[data-embed],
+html[data-embed] body {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: transparent;
+  background-image: none;
+}
+
+.embed-stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.embed-fit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+}
+
+.embed-fit .device {
+  width: 100%;
+  max-width: none;
+  padding: var(--bezel);
+  border-radius: var(--r-device);
+  background: var(--ink);
+  box-shadow: none;
+}
+
+.embed-fit .phone {
+  --safe-b: 34px;
+  width: var(--frame-w);
+  max-width: none;
+  height: var(--frame-h);
+  border-radius: calc(var(--r-device) - var(--bezel));
+}
+
+.embed-fit .statusbar {
+  display: flex;
+}
+
+.embed-fit .home-indicator {
+  display: block;
+}
+
+.embed-fit .phone-header-row {
+  display: none;
+}

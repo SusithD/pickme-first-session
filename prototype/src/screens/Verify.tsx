@@ -6,6 +6,7 @@ import { IconCheck, IconInfo } from '../components/icons'
 import { LiveRegion } from '../components/LiveRegion'
 import { Notice } from '../components/Notice'
 import { useI18n } from '../i18n/I18nContext'
+import { useEmbed } from '../state/EmbedContext'
 import { useRide } from '../state/RideContext'
 import { DEMO_OTP, OTP_RESEND_SECONDS, formatLkr, normalisePhone } from '../state/mock'
 import { fareTotal } from '../state/rideMachine'
@@ -18,11 +19,12 @@ const CODE_PATTERN = /^\d{6}$/
 export default function Verify() {
   const { t } = useI18n()
   const { state, dispatch } = useRide()
+  const { local } = useEmbed()
   const control = state.variant === 'control'
 
-  const [stage, setStage] = useState<Stage>('phone')
+  const [stage, setStage] = useState<Stage>(local.verifyStage ?? 'phone')
   const [phone, setPhone] = useState(state.phone ?? '')
-  const [sentTo, setSentTo] = useState('')
+  const [sentTo, setSentTo] = useState(local.verifyStage ? (state.phone ?? '') : '')
   const [phoneError, setPhoneError] = useState<string | undefined>()
   const [code, setCode] = useState('')
   const [codeError, setCodeError] = useState<string | undefined>()

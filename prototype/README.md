@@ -25,6 +25,21 @@ Open the printed local URL. The phone frame shows the concept banner and a varia
 
 First time running e2e: `npx playwright install chromium`.
 
+## Embed
+
+`/?embed=1&scene=<name>` renders only the phone device (bezel, status bar, notice strip, home indicator) on a transparent background, scaled to fit the iframe viewport. The device is 414 × 868 px (390 × 844 screen plus a 12 px bezel) and scales down or up to fit any iframe size without cropping. The screen stays interactive. `embed` and `scene` are also read from the hash query (`#/?embed=1&scene=ride-control`). An unknown scene shows `intro`.
+
+```html
+<iframe
+  src="https://susithd.github.io/pickme-first-session/?embed=1&scene=ride-treatment"
+  title="Ride choice"
+  width="300"
+  height="640"
+></iframe>
+```
+
+Scenes: `intro`, `problem`, `welcome-treatment`, `welcome-control`, `location`, `where`, `ride-treatment`, `ride-control`, `fare-sheet`, `verify`, `finding-matched`, `finding-cancelled`, `trip-route-change`, `arrived`, `receipt-delta`, `receipt-asbooked`, `help-ticket`, `receipt-sinhala`, `ride-tamil`. Definitions live in `src/app/scenes.ts`; map scenes use Fort Railway Station, tuk, peak on.
+
 ## Deploy
 
 GitHub Pages through `.github/workflows/pages.yml` on every push to `main`. The workflow builds with `BASE_PATH=/pickme-first-session/` and runs the e2e job only when `prototype/tests/e2e/*.spec.ts` exists. Set Pages source to GitHub Actions in the repository settings. Routing uses `HashRouter`, and `dist/404.html` is a copy of `index.html`.

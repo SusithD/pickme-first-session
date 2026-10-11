@@ -6,6 +6,7 @@ import { IconBell, IconCheck, IconPhone, IconShare, IconStar } from '../componen
 import { MapScreen } from '../components/MapScreen'
 import { Notice } from '../components/Notice'
 import { useI18n } from '../i18n/I18nContext'
+import { useEmbed } from '../state/EmbedContext'
 import { useReducedMotion, useRide, useVariant } from '../state/RideContext'
 import { DRIVER_CANCEL_DELAY_MS, MATCH_DELAY_MS, formatLkr } from '../state/mock'
 import type { RideType } from '../state/mock'
@@ -22,6 +23,7 @@ export default function Finding() {
   const { t } = useI18n()
   const { state, dispatch } = useRide()
   const variant = useVariant()
+  const { embed } = useEmbed()
   const reducedMotion = useReducedMotion()
   const { finding, scenario, rideType, peak, fare, driver, permissions, destination, pickupNote } =
     state
@@ -59,10 +61,10 @@ export default function Finding() {
   }, [finding, scenario, dispatch])
 
   useEffect(() => {
-    if (finding !== 'cancelled') return
+    if (finding !== 'cancelled' || embed) return
     const timer = window.setTimeout(() => dispatch({ type: 'FIND_AGAIN' }), MATCH_DELAY_MS)
     return () => window.clearTimeout(timer)
-  }, [finding, dispatch])
+  }, [finding, embed, dispatch])
 
   function skipWait() {
     if (finding === 'cancelled') {
