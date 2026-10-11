@@ -1,1 +1,3 @@
-export const fareExtra = {} as const
+export const fareExtra = {
+  'fare.lineChanges': 'Changes on this trip',
+} as const

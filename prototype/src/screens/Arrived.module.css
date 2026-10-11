@@ -1,0 +1,22 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.note {
+  color: var(--primary-ink);
+}
+
+.rule {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.countdown {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+}

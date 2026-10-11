@@ -1,1 +1,3 @@
-export const introExtra = {} as const
+export const introExtra = {
+  'problem.tagLabel': 'Where it bites',
+} as const

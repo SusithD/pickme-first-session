@@ -1,7 +1,71 @@
-import { PlaceholderScreen } from '../components/PlaceholderScreen'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { Button } from '../components/Button'
+import { RadioGroup } from '../components/Radio'
+import type { RadioOption } from '../components/Radio'
 import { useI18n } from '../i18n/I18nContext'
+import { formatLkr } from '../state/mock'
+import { useRide } from '../state/RideContext'
+import { flaggedAmount } from '../state/rideMachine'
+import type { HelpReason } from '../state/rideMachine'
+import styles from './Help.module.css'
+
+type ReasonValue = HelpReason | ''
 
 export default function Help() {
   const { t } = useI18n()
-  return <PlaceholderScreen step="help" title={t('help.title')} />
+  const { state, dispatch } = useRide()
+  const [reason, setReason] = useState<ReasonValue>(state.helpReason ?? '')
+  const submitted = state.ticket !== undefined
+  const flagged = flaggedAmount(state.fare)
+
+  const reasons: readonly RadioOption<ReasonValue>[] = [
+    { value: 'fareHigher', label: t('help.reason.fareHigher') },
+    { value: 'cashOnCard', label: t('help.reason.cashOnCard') },
+    { value: 'noTrip', label: t('help.reason.noTrip') },
+  ]
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (reason === '') return
+    dispatch({ type: 'OPEN_TICKET', reason })
+  }
+
+  return (
+    <section className="screen">
+      <h1>{t('help.title')}</h1>
+
+      {submitted ? null : (
+        <form className={styles.form} onSubmit={submit}>
+          <RadioGroup<ReasonValue>
+            label={t('help.reasonsLabel')}
+            value={reason}
+            options={reasons}
+            onChange={setReason}
+          />
+          {reason === '' ? <p className={styles.hint}>{t('help.pickReason')}</p> : null}
+          <Button type="submit" block disabled={reason === ''}>
+            {t('help.submit')}
+          </Button>
+        </form>
+      )}
+
+      <div role="status" aria-live="polite" className={submitted ? styles.confirmation : undefined}>
+        {submitted ? (
+          <>
+            <p className={styles.ticket}>{t('help.ticket', { ticket: state.ticket ?? '' })}</p>
+            {flagged > 0 ? (
+              <p className={styles.hold}>{t('help.hold', { amount: formatLkr(flagged) })}</p>
+            ) : null}
+          </>
+        ) : null}
+      </div>
+
+      {submitted ? (
+        <Button variant="secondary" block onClick={() => dispatch({ type: 'RESET' })}>
+          {t('help.backToStart')}
+        </Button>
+      ) : null}
+    </section>
+  )
 }

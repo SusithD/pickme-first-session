@@ -1,0 +1,88 @@
+.searching {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.lead {
+  font-weight: var(--fw-semibold);
+}
+
+.spinner {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 900ms linear infinite;
+}
+
+.staticLabel {
+  flex: none;
+  color: var(--primary-ink);
+  font-weight: var(--fw-semibold);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.heading {
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: var(--fw-semibold);
+}
+
+.driver {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding: var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.driverName {
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: var(--fw-semibold);
+}
+
+.badge {
+  align-self: flex-start;
+  margin-top: var(--s2);
+  padding: var(--s1) var(--s2);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+  border: 1px solid var(--ok-ink);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--fw-semibold);
+}
+
+.primer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.primerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}

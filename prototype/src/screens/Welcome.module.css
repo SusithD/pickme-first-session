@@ -1,0 +1,68 @@
+.welcome {
+  gap: var(--s5);
+}
+
+.caption {
+  margin-bottom: var(--s2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  font-weight: var(--fw-semibold);
+}
+
+.note {
+  color: var(--ink-2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.phoneRow {
+  display: flex;
+  align-items: stretch;
+  gap: var(--s2);
+}
+
+.prefix {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  min-height: var(--target);
+  padding: 0 var(--s3);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.phoneInput {
+  flex: 1;
+  min-width: 0;
+}
+
+.hint {
+  margin-top: var(--s1);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.error {
+  margin-top: var(--s1);
+  color: var(--danger);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  font-weight: var(--fw-semibold);
+}
+
+.invalid {
+  border-color: var(--danger);
+  border-width: 2px;
+}
+
+.language {
+  display: flex;
+  flex-direction: column;
+}

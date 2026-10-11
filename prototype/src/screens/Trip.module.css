@@ -1,0 +1,81 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.routeCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  padding: var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  height: var(--s5);
+}
+
+.dotDone,
+.dotCurrent,
+.dotEnd {
+  flex: none;
+  width: var(--s3);
+  height: var(--s3);
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+}
+
+.dotDone {
+  background: var(--primary);
+}
+
+.dotCurrent {
+  width: var(--s4);
+  height: var(--s4);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.dotEnd {
+  background: var(--surface);
+  border-color: var(--ink);
+}
+
+.travelled {
+  flex: 2;
+  height: var(--s1);
+  border-radius: var(--s1);
+  background: var(--primary);
+}
+
+.remaining {
+  flex: 3;
+  height: var(--s1);
+  border-radius: var(--s1);
+  background: var(--border);
+}
+
+.routeLabel {
+  font-weight: var(--fw-semibold);
+}
+
+.fare {
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+
+.actions > * {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,31 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.hint {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--ok-ink);
+  border-radius: var(--r-md);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}
+
+.ticket {
+  font-weight: var(--fw-semibold);
+}
+
+.hold {
+  color: var(--warn-ink);
+  font-weight: var(--fw-semibold);
+}

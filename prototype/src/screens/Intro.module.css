@@ -1,0 +1,32 @@
+.intro {
+  gap: var(--s5);
+  min-height: 100%;
+}
+
+.note {
+  color: var(--ink-2);
+}
+
+.language {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.caption {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  font-weight: var(--fw-semibold);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.review {
+  color: var(--ink-2);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+}
