@@ -10,6 +10,7 @@ function Probe() {
   return (
     <div>
       <p>{t('ride.cta', { ride: 'Tuk', amount: 'LKR 540' })}</p>
+      <p data-testid="intro">{t('intro.title')}</p>
       <p data-testid="fallback">{String(fallback)}</p>
     </div>
   )
@@ -33,9 +34,10 @@ describe('I18nProvider', () => {
     expect(screen.getByTestId('fallback')).toHaveTextContent('false')
   })
 
-  it('falls back to English and flags it for empty Sinhala', async () => {
+  it('falls back to English for untranslated keys and flags it', async () => {
     renderWith({ lang: 'si' })
-    expect(screen.getByText('Book Tuk · LKR 540')).toBeInTheDocument()
+    expect(screen.queryByText('Book Tuk · LKR 540')).not.toBeInTheDocument()
+    expect(screen.getByTestId('intro')).toHaveTextContent('A first ride you can trust')
     expect(document.documentElement.lang).toBe('si')
     await waitFor(() => expect(screen.getByTestId('fallback')).toHaveTextContent('true'))
   })
