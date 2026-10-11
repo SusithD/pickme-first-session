@@ -97,9 +97,15 @@ export default function Finding() {
 
   return (
     <MapScreen
-      mode={finding === 'searching' || finding === 'cancelled' ? 'searching' : 'pickup'}
+      mode={
+        finding === 'searching' || finding === 'cancelled'
+          ? 'searching'
+          : finding === 'matched'
+            ? 'matched'
+            : 'pickup'
+      }
       back={false}
-      sheetTop={finding === 'matched' ? '40%' : undefined}
+      sheetTop={finding === 'matched' ? '36%' : undefined}
       footer={
         finding === 'matched' && driver ? (
           <LinkButton block to={STEP_PATHS.trip}>
@@ -108,7 +114,7 @@ export default function Finding() {
         ) : undefined
       }
     >
-      <h1>{t('finding.title')}</h1>
+      <h1>{t(finding === 'matched' ? 'finding.title.matched' : 'finding.title')}</h1>
 
       {finding === 'searching' ? (
         <>
@@ -155,7 +161,17 @@ export default function Finding() {
             </div>
             <div className={styles.vehicleRow}>
               <span className={styles.vehicle}>{driver.vehicle}</span>
-              <span className={styles.plate}>{t('finding.plate', { plate: driver.plate })}</span>
+              <span className={styles.plateWrap}>
+                <span className="visually-hidden">
+                  {t('finding.plate', { plate: driver.plate })}
+                </span>
+                <span className={styles.sample} aria-hidden="true">
+                  {t('finding.sample')}
+                </span>
+                <span className={styles.plate} aria-hidden="true">
+                  {driver.plate}
+                </span>
+              </span>
             </div>
             {pickupNote ? (
               <p className={styles.note}>{t('finding.note', { note: pickupNote })}</p>
@@ -164,6 +180,23 @@ export default function Finding() {
               <IconCheck size={18} />
               {t('finding.agreed', { method: agreedMethod })}
             </p>
+          </div>
+          <div className={styles.tiles}>
+            <Button variant="secondary" className="action-circle" disabled>
+              <span className="circle">
+                <IconPhone size={20} />
+              </span>
+              {t('finding.call')}
+            </Button>
+            <ShareTripButton
+              className="action-circle"
+              icon={
+                <span className="circle">
+                  <IconShare size={20} />
+                </span>
+              }
+              label={t('finding.share')}
+            />
           </div>
           {scenario === 'cashDemand' && variant === 'treatment' ? (
             <Notice tone="warn">{t('finding.cashLocked', { method: agreedMethod })}</Notice>
@@ -193,23 +226,6 @@ export default function Finding() {
               </div>
             </Notice>
           ) : null}
-          <div className={styles.tiles}>
-            <Button variant="secondary" className="action-circle" disabled>
-              <span className="circle">
-                <IconPhone size={20} />
-              </span>
-              {t('finding.call')}
-            </Button>
-            <ShareTripButton
-              className="action-circle"
-              icon={
-                <span className="circle">
-                  <IconShare size={20} />
-                </span>
-              }
-              label={t('finding.share')}
-            />
-          </div>
         </>
       ) : null}
 

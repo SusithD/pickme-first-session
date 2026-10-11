@@ -65,20 +65,25 @@ export default function Trip() {
           : undefined
       }
       footer={
-        <LinkButton to={STEP_PATHS.arrived} block>
+        <LinkButton to={STEP_PATHS.arrived} variant="secondary" block>
           {t('trip.continue')}
         </LinkButton>
       }
     >
-      <h1>{t('trip.title')}</h1>
+      <h1 className={styles.overline}>{t('trip.title')}</h1>
 
       {destination ? (
         <div className={styles.routeCard}>
-          <p className={styles.routeLabel}>
-            {t('trip.routeBar', { place: destination.name, min: destination.tripMinutes })}
-          </p>
+          <div className={styles.eta}>
+            <span className={styles.etaValue}>
+              {t('trip.eta', { min: destination.tripMinutes })}
+            </span>
+            <span className={styles.etaTo}>{t('trip.to', { place: destination.name })}</span>
+          </div>
           <div className={styles.track} aria-hidden="true">
+            <span className={styles.startDot} />
             <span className={styles.travelled} />
+            <span className={styles.endDot} />
           </div>
         </div>
       ) : null}

@@ -65,7 +65,9 @@ export default function Ride() {
       ),
       description: (
         <>
-          <span className={styles.eta}>{t('ride.eta', { min: ride.etaMin })}</span>
+          <span className={styles.eta}>
+            {t('ride.etaSeats', { min: ride.etaMin, seats: ride.seats })}
+          </span>
           <span className={styles.price}>
             {treatment ? null : <span className={styles.estimate}>{estimateLabel}</span>}
             <span className={styles.amount}>{rideAmount}</span>
@@ -99,7 +101,7 @@ export default function Ride() {
     <MapScreen
       mode="route"
       callout={callout}
-      sheetTop="38%"
+      sheetTop="34%"
       footer={
         <Button block onClick={() => dispatch({ type: 'BOOK' })}>
           {cta}
@@ -125,8 +127,9 @@ export default function Ride() {
             className={styles.promiseLink}
             id={FARE_TRIGGER_ID}
             onClick={() => focusReturn.set(FARE_TRIGGER_ID)}
+            aria-label={t('ride.whatChanges')}
           >
-            {t('ride.whatChanges')}
+            {t('ride.details')}
             <IconChevronRight size={14} />
           </LinkButton>
         </div>
@@ -153,7 +156,7 @@ export default function Ride() {
         options={paymentOptions}
         onChange={(payment) => dispatch({ type: 'SET_PAYMENT', payment })}
         orientation="horizontal"
-        className="lang-toggle"
+        className={`lang-toggle ${styles.payment}`}
       />
       <p className="footnote">{t('ride.paymentHelper')}</p>
     </MapScreen>

@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef } from 'react'
 import type { ReactNode } from 'react'
+import { IconClose } from './icons'
 import { useI18n } from '../i18n/I18nContext'
 
 interface SheetProps {
@@ -90,8 +91,13 @@ export function Sheet({
           <Heading id={titleId} className="sheet-title">
             {title}
           </Heading>
-          <button type="button" className="btn btn-ghost sheet-close" onClick={() => onClose()}>
-            {t('common.close')}
+          <button
+            type="button"
+            className="sheet-close"
+            aria-label={t('common.close')}
+            onClick={() => onClose()}
+          >
+            <IconClose size={16} />
           </button>
         </div>
         <div className="sheet-body">{children}</div>

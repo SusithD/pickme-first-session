@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Button } from '../components/Button'
 import { Brand } from '../components/Brand'
-import { IconCheck } from '../components/icons'
+import { IconCheck, IconInfo } from '../components/icons'
 import { LiveRegion } from '../components/LiveRegion'
 import { Notice } from '../components/Notice'
 import { useI18n } from '../i18n/I18nContext'
@@ -95,8 +95,10 @@ export default function Verify() {
     setStage('phone')
   }
 
+  const slots = Array.from({ length: 6 }, (_, index) => code[index] ?? '')
+
   return (
-    <section className={`screen ${styles.verify}`}>
+    <section className={`screen screen-cta ${styles.verify}`}>
       <Brand />
       <h1 className="large-title">{t('verify.title')}</h1>
 
@@ -108,8 +110,8 @@ export default function Verify() {
               <label className="field-label" htmlFor={phoneId}>
                 {t('verify.phoneLabel')}
               </label>
-              <div className={'phone-row'}>
-                <span className={'phone-prefix'}>{t('verify.phonePrefix')}</span>
+              <div className="phone-row">
+                <span className="phone-prefix">{t('verify.phonePrefix')}</span>
                 <input
                   ref={phoneInputRef}
                   id={phoneId}
@@ -126,16 +128,21 @@ export default function Verify() {
               <p id={phoneHintId} className={styles.hint}>
                 {t('verify.phoneHint')}
               </p>
-              <p className="demo-note">{t('verify.demoOnly')}</p>
               {phoneError ? (
                 <p id={phoneErrorId} className={styles.error}>
                   {phoneError}
                 </p>
               ) : null}
             </div>
-            <Button type="submit" block>
-              {t('verify.sendCode')}
-            </Button>
+            <p className="callout">
+              <IconInfo size={18} />
+              <span>{t('verify.demoOnly')}</span>
+            </p>
+            <div className="page-cta">
+              <Button type="submit" block>
+                {t('verify.sendCode')}
+              </Button>
+            </div>
           </form>
         </>
       ) : null}
@@ -145,68 +152,90 @@ export default function Verify() {
           <p className={styles.body}>
             {t('verify.codeHint', { phone: `${t('verify.phonePrefix')} ${sentTo}` })}
           </p>
-          <p className={styles.demo}>{t('verify.demoCode', { code: DEMO_OTP })}</p>
-          <p className="demo-note">{t('verify.demoOnly')}</p>
           <form className={styles.form} noValidate onSubmit={confirmCode}>
             <div>
               <label className="field-label" htmlFor={codeId}>
                 {t('verify.codeLabel')}
               </label>
-              <input
-                ref={codeInputRef}
-                id={codeId}
-                className={`form-input ${styles.codeInput} ${codeError ? styles.invalid : ''}`}
-                type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                value={code}
-                aria-invalid={codeError ? true : undefined}
-                aria-describedby={codeError ? codeErrorId : undefined}
-                onChange={(event) => {
-                  setCode(event.target.value.replace(/\D/g, '').slice(0, 6))
-                  setCodeError(undefined)
-                }}
-              />
+              <div className={styles.slots}>
+                <input
+                  ref={codeInputRef}
+                  id={codeId}
+                  className={styles.codeInput}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={code}
+                  aria-invalid={codeError ? true : undefined}
+                  aria-describedby={codeError ? codeErrorId : undefined}
+                  onChange={(event) => {
+                    setCode(event.target.value.replace(/\D/g, '').slice(0, 6))
+                    setCodeError(undefined)
+                  }}
+                />
+                {slots.map((digit, index) => (
+                  <span
+                    key={index}
+                    aria-hidden="true"
+                    className={`${styles.slot} ${index === code.length ? styles.slotActive : ''}`}
+                  >
+                    {digit}
+                  </span>
+                ))}
+              </div>
               {codeError ? (
                 <p id={codeErrorId} className={styles.error}>
                   {codeError}
                 </p>
               ) : null}
             </div>
-            <Button type="submit" block>
-              {t('verify.confirm')}
-            </Button>
-          </form>
-          <div className={styles.resend}>
-            {waiting ? (
-              <p>{t('verify.resendWait', { seconds: secondsLeft })}</p>
-            ) : (
-              <Button variant="secondary" onClick={resendCode}>
-                {t('verify.resend')}
+            <p className="callout">
+              <IconInfo size={18} />
+              <span className={`callout-text ${styles.calloutText}`}>
+                <span className="callout-strong">{t('verify.demoOnly')}</span>
+                <span>{t('verify.demoCode', { code: DEMO_OTP })}</span>
+              </span>
+            </p>
+            <div className={styles.resend}>
+              {waiting ? (
+                <p>{t('verify.resendWait', { seconds: secondsLeft })}</p>
+              ) : (
+                <Button variant="ghost" className={styles.textButton} onClick={resendCode}>
+                  {t('verify.resend')}
+                </Button>
+              )}
+              <Button variant="ghost" className={styles.textButton} onClick={changeNumber}>
+                {t('verify.wrongNumber')}
               </Button>
-            )}
-            <Button variant="ghost" onClick={changeNumber}>
-              {t('verify.wrongNumber')}
-            </Button>
-          </div>
+            </div>
+            <div className="page-cta">
+              <Button type="submit" block>
+                {t('verify.confirm')}
+              </Button>
+            </div>
+          </form>
         </>
       ) : null}
 
       {stage === 'done' ? (
-        <div className={styles.success}>
-          <span className={styles.check}>
-            <IconCheck size={36} />
-          </span>
-          <Notice tone="ok" live="polite">
-            {t('verify.success')}
-          </Notice>
-          {control ? null : (
-            <p>{t('verify.fareKept', { amount: formatLkr(fareTotal(state.fare)) })}</p>
-          )}
-          <Button block onClick={() => dispatch({ type: 'SIGN_IN' })}>
-            {t('verify.continue')}
-          </Button>
-        </div>
+        <>
+          <div className={styles.success}>
+            <span className={styles.check}>
+              <IconCheck size={36} />
+            </span>
+            <Notice tone="ok" live="polite">
+              {t('verify.success')}
+            </Notice>
+            {control ? null : (
+              <p>{t('verify.fareKept', { amount: formatLkr(fareTotal(state.fare)) })}</p>
+            )}
+          </div>
+          <div className="page-cta">
+            <Button block onClick={() => dispatch({ type: 'SIGN_IN' })}>
+              {t('verify.continue')}
+            </Button>
+          </div>
+        </>
       ) : null}
 
       <LiveRegion message={phoneError ?? codeError ?? ''} politeness="assertive" />

@@ -33,8 +33,8 @@ export const si: Translations = {
   'location.mockNote': 'මෙය ආදර්ශනයක් පමණි: සැබෑ අවසරයක් ඉල්ලන්නේ නැත.',
 
   'where.title': 'කොහේටද?',
-  'where.pickup': 'බම්බලපිටිය හන්දිය අසල (GPS, ආදර්ශ)',
-  'where.pickupLabel': 'පික්අප්',
+  'where.pickup': 'බම්බලපිටිය හන්දිය',
+  'where.pickupLabel': 'පික්අප් (GPS, ආදර්ශ)',
   'where.searchLabel': 'කොහේටද?',
   'where.searchPlaceholder': 'කොහේටද?',
   'where.placesLabel': 'ස්ථාන',
@@ -178,4 +178,12 @@ export const si: Translations = {
   'receipt.pill.asBooked': 'වෙන් කළ පරිදිම',
   'receipt.pill.explained': '+{amount} පැහැදිලි කර ඇත',
   'verify.demoOnly': 'ආදර්ශනයක් පමණි. කිසිවක් යවන්නේ නැත.',
+  'ride.etaSeats': 'මිනි. {min} · ආසන {seats}',
+  'ride.details': 'විස්තර',
+  'trip.eta': 'මිනිත්තු {min}',
+  'trip.to': '{place} වෙත',
+  'finding.title.matched': 'ඔබේ රියදුරු පැමිණෙමින් සිටී',
+  'finding.sample': 'නියැදි',
+  'receipt.bookedFare': 'වෙන් කළ ගාස්තුව',
+  'receipt.done': 'අවසන්',
 }

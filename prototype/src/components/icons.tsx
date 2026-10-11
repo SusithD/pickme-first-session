@@ -157,15 +157,22 @@ export function IconCard(props: IconProps) {
   )
 }
 
+export function TukShapes() {
+  return (
+    <>
+      <path d="M4.5 14.5v-4C4.5 7.3 7.2 5.5 10.5 5.5c2.6 0 4.5 1 5.3 3" />
+      <path d="M15.8 8.5L17 14.5M16.2 6.8h3.3" />
+      <path d="M4.5 14.5H16M8.7 14.5v-3.5" />
+      <circle cx="7.8" cy="17.7" r="2.3" />
+      <circle cx="19" cy="17.8" r="1.7" />
+    </>
+  )
+}
+
 export function IconTuk(props: IconProps) {
   return (
     <Svg {...props}>
-      <path d="M4 15V9.5C4 8.1 5.1 7 6.5 7h6c.8 0 1.5.4 1.9 1.1L16 11" />
-      <path d="M4 11.5h12M9.5 7v4.5" />
-      <path d="M16 11h3c1.1 0 2 .9 2 2v2" />
-      <path d="M4 15h1.2M10.8 15h4.4M20.8 15H21" />
-      <circle cx="8" cy="16" r="2.2" />
-      <circle cx="18" cy="16" r="2.2" />
+      <TukShapes />
     </Svg>
   )
 }
@@ -173,11 +180,10 @@ export function IconTuk(props: IconProps) {
 export function IconSmallCar(props: IconProps) {
   return (
     <Svg {...props}>
-      <path d="M3.5 15v-3c0-.6.3-1.1.8-1.4L8 8.5 9.5 7h5c.5 0 1 .2 1.3.6L18.5 11l1.7.8c.5.3.8.8.8 1.4V15" />
-      <path d="M8 8.5l.5 2.5H18M13 7.5V11" />
-      <path d="M3.5 15h1.8M10 15h4M18.7 15H21" />
-      <circle cx="7.5" cy="16" r="2.2" />
-      <circle cx="16.5" cy="16" r="2.2" />
+      <path d="M4.5 17v-4.5C4.5 9.2 6.7 7 9.5 7h3.8c1.4 0 2.5.6 3.3 1.8l1.6 2.3c1.3.4 2 1.2 2 2.6V17" />
+      <path d="M9.8 7.2V12H18M4.5 17h1M10.5 17h4M19 17h1.5" />
+      <circle cx="8" cy="17.5" r="2" />
+      <circle cx="17" cy="17.5" r="2" />
     </Svg>
   )
 }
@@ -185,11 +191,10 @@ export function IconSmallCar(props: IconProps) {
 export function IconCar(props: IconProps) {
   return (
     <Svg {...props}>
-      <path d="M2.5 15v-2.2c0-.6.4-1.1 1-1.3L7 10.5 9 7.5h5.5l3 3 2.8.8c.6.2 1 .7 1 1.3V15" />
-      <path d="M9 7.5l-.5 3H17.5M13 7.5v3" />
-      <path d="M2.5 15h2M10 15h4.4M19 15h2.8" />
-      <circle cx="7" cy="16" r="2.2" />
-      <circle cx="17" cy="16" r="2.2" />
+      <path d="M2.5 16.5v-2.6c0-.7.5-1.3 1.2-1.4l2.8-.6L9 8h5.2l3.3 3.8 2.8.7c.8.2 1.2.8 1.2 1.6v2.4" />
+      <path d="M9 8l-.6 3.9H17.5M13.2 8v3.9M2.5 16.5h2M10 16.5h4M19.2 16.5h2.3" />
+      <circle cx="7" cy="17" r="2" />
+      <circle cx="17" cy="17" r="2" />
     </Svg>
   )
 }
@@ -291,5 +296,31 @@ export function IconQuote(props: IconProps) {
     >
       <path d="M9.5 6C6 7 4 9.8 4 13.5V18h6v-6H7.2c.1-1.8 1-3 2.8-3.7zM20 6c-3.5 1-5.5 3.8-5.5 7.5V18h6v-6h-2.8c.1-1.8 1-3 2.8-3.7z" />
     </svg>
+  )
+}
+
+export function IconClose(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M6 6l12 12M18 6L6 18" />
+    </Svg>
+  )
+}
+
+export function IconReceipt(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M6 3.5h12v17l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3-2 1.3z" />
+      <path d="M9 8.5h6M9 12h6" />
+    </Svg>
+  )
+}
+
+export function IconInfo(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 11v5M12 8v.01" />
+    </Svg>
   )
 }

@@ -13,6 +13,7 @@ export interface RideOption {
   base: number
   perKm: number
   etaMin: number
+  seats: number
 }
 
 export interface Driver {
@@ -53,9 +54,9 @@ export const DEFAULT_PLACE: Place = PLACES[0] ?? {
 }
 
 export const RIDES: Record<RideType, RideOption> = {
-  tuk: { id: 'tuk', base: 100, perKm: 80, etaMin: 12 },
-  smallCar: { id: 'smallCar', base: 150, perKm: 110, etaMin: 9 },
-  car: { id: 'car', base: 200, perKm: 150, etaMin: 7 },
+  tuk: { id: 'tuk', base: 100, perKm: 80, etaMin: 12, seats: 3 },
+  smallCar: { id: 'smallCar', base: 150, perKm: 110, etaMin: 9, seats: 4 },
+  car: { id: 'car', base: 200, perKm: 150, etaMin: 7, seats: 4 },
 }
 
 export const RIDE_TYPES: readonly RideType[] = ['tuk', 'smallCar', 'car']

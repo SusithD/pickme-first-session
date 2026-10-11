@@ -94,7 +94,7 @@
   --status-h: 44px;
   --strip-h: 20px;
   --chrome-h: 64px;
-  --safe-b: 30px;
+  --safe-b: 34px;
 }
 
 @media (prefers-reduced-motion: reduce) {

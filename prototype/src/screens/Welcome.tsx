@@ -3,7 +3,8 @@ import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, LinkButton } from '../components/Button'
 import { LangToggle } from '../components/LangToggle'
-import { Brand } from '../components/Brand'
+import { IconInfo } from '../components/icons'
+import { WelcomeHero } from '../components/WelcomeHero'
 import { LiveRegion } from '../components/LiveRegion'
 import { useI18n } from '../i18n/I18nContext'
 import { normalisePhone } from '../state/mock'
@@ -22,14 +23,14 @@ function TreatmentWelcome() {
   const next = nextStep({ ...state, step: 'welcome' })
 
   return (
-    <section className={`screen ${styles.welcome}`}>
-      <Brand />
-      <h1 className="large-title">{t('welcome.title.treatment')}</h1>
-      <div className={styles.language}>
-        <p className={styles.caption}>{t('welcome.langPrompt')}</p>
-        <LangToggle size="large" labelKind="long" />
+    <section className={`screen screen-cta ${styles.welcome}`}>
+      <WelcomeHero />
+      <div className={styles.intro}>
+        <h1 className="large-title">{t('welcome.title.treatment')}</h1>
+        <p className={styles.subtitle}>{t('welcome.langPrompt')}</p>
       </div>
-      <div className={styles.bottom}>
+      <LangToggle size="large" labelKind="long" />
+      <div className="page-cta">
         <p className="footnote">{t('welcome.note.treatment')}</p>
         <LinkButton to={next ? STEP_PATHS[next] : STEP_PATHS.welcome} block>
           {t('welcome.cta.treatment')}
@@ -63,16 +64,16 @@ function ControlWelcome() {
   }
 
   return (
-    <section className={`screen ${styles.welcome}`}>
-      <Brand />
+    <section className={`screen screen-cta ${styles.welcome}`}>
+      <WelcomeHero compact />
       <h1 className="large-title">{t('welcome.title.control')}</h1>
       <form className={styles.form} noValidate onSubmit={handleSubmit}>
         <div>
           <label className="field-label" htmlFor={inputId}>
             {t('welcome.phoneLabel.control')}
           </label>
-          <div className={'phone-row'}>
-            <span className={'phone-prefix'}>{t('verify.phonePrefix')}</span>
+          <div className="phone-row">
+            <span className="phone-prefix">{t('verify.phonePrefix')}</span>
             <input
               id={inputId}
               className={`phone-input ${phoneError ? styles.invalid : ''}`}
@@ -88,19 +89,24 @@ function ControlWelcome() {
           <p id={hintId} className={styles.hint}>
             {t('welcome.phoneHint.control')}
           </p>
-          <p className="demo-note">{t('verify.demoOnly')}</p>
           {phoneError ? (
             <p id={errorId} className={styles.error}>
               {phoneError}
             </p>
           ) : null}
         </div>
-        <Button type="submit" block>
-          {t('welcome.cta.control')}
-        </Button>
+        <p className="callout">
+          <IconInfo size={18} />
+          <span>{t('verify.demoOnly')}</span>
+        </p>
+        <LangToggle />
+        <div className="page-cta">
+          <Button type="submit" block>
+            {t('welcome.cta.control')}
+          </Button>
+        </div>
       </form>
       <LiveRegion message={phoneError ?? ''} politeness="assertive" />
-      <LangToggle />
     </section>
   )
 }

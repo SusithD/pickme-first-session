@@ -1,8 +1,12 @@
-export type MapMode = 'pickup' | 'route' | 'searching' | 'trip' | 'arrived'
+import { TukShapes } from './icons'
 
-const ROUTE = 'M118 300 C160 300 188 292 206 268 C224 244 226 214 250 190 C270 170 292 156 318 152'
-const PICKUP = { x: 118, y: 300 }
-const DEST = { x: 318, y: 152 }
+export type MapMode = 'pickup' | 'route' | 'searching' | 'matched' | 'trip' | 'arrived'
+
+const ROUTE = 'M118 248 C160 248 188 242 206 222 C224 202 226 180 250 166 C270 154 292 144 318 140'
+const DRIVER_ROUTE = 'M250 176 C226 206 190 238 118 248'
+const PICKUP = { x: 118, y: 248 }
+const DEST = { x: 318, y: 140 }
+const DRIVER = { x: 250, y: 176 }
 
 function Callout({ text }: { text: string }) {
   const width = Math.round(text.length * 6.9 + 28)
@@ -46,8 +50,8 @@ export function CityMap({ mode, callout }: { mode: MapMode; callout?: string }) 
         <path d="M84 360C170 350 260 360 384 330" />
         <path d="M250 0C246 80 252 140 250 190C248 260 262 360 258 500" />
         <path d="M338 0C330 120 340 300 330 500" />
-        <path d="M70 304C94 302 100 300 118 300" />
-        <path d={ROUTE} />
+        <path d="M70 252C94 250 100 248 118 248" />
+        {showRoute ? <path d={ROUTE} /> : null}
       </g>
       <path className="citymap-rail" d="M96 0C108 90 92 200 112 300S120 430 128 500" />
       <path className="citymap-rail-ties" d="M96 0C108 90 92 200 112 300S120 430 128 500" />
@@ -55,6 +59,23 @@ export function CityMap({ mode, callout }: { mode: MapMode; callout?: string }) 
         className="citymap-sea"
         d="M0 0H50C60 60 36 120 54 190S44 300 60 380S50 460 58 500H0Z"
       />
+
+      {mode === 'matched' ? (
+        <>
+          <path className="citymap-route-casing citymap-route-casing-thin" d={DRIVER_ROUTE} />
+          <path className="citymap-route citymap-route-thin" d={DRIVER_ROUTE} />
+          <g transform={`translate(${DRIVER.x} ${DRIVER.y})`}>
+            <circle className="citymap-driver" r="14" />
+            <g
+              className="citymap-driver-glyph"
+              transform="translate(-9 -9) scale(0.75)"
+              strokeWidth="2"
+            >
+              <TukShapes />
+            </g>
+          </g>
+        </>
+      ) : null}
 
       {showRoute ? (
         <>

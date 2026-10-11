@@ -84,8 +84,8 @@ export const en = {
   'location.mockNote': 'Prototype only: no real permission is requested.',
 
   'where.title': 'Where to?',
-  'where.pickup': 'Near Bambalapitiya Junction (GPS, mock)',
-  'where.pickupLabel': 'Pickup',
+  'where.pickup': 'Bambalapitiya Junction',
+  'where.pickupLabel': 'Pickup (GPS, mock)',
   'where.searchLabel': 'Where to?',
   'where.searchPlaceholder': 'Where to?',
   'where.placesLabel': 'Places',

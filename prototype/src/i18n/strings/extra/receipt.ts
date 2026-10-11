@@ -5,4 +5,6 @@ export const receiptExtra = {
   'help.pickReason': 'Choose one reason to send your ticket.',
   'receipt.pill.asBooked': 'As booked',
   'receipt.pill.explained': '+{amount} explained',
+  'receipt.bookedFare': 'Booked fare',
+  'receipt.done': 'Done',
 } as const

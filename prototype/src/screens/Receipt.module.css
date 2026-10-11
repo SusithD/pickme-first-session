@@ -15,8 +15,13 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--primary);
+  background: var(--field);
   color: var(--ink);
+}
+
+.sealOk {
+  background: var(--ok-bg);
+  color: var(--ok-ink);
 }
 
 .title {
@@ -55,8 +60,8 @@
 }
 
 .amount {
-  font-size: var(--fs-large);
-  line-height: var(--lh-large);
+  font-size: 40px;
+  line-height: 46px;
   font-weight: var(--fw-heavy);
   letter-spacing: var(--ls-title);
   font-variant-numeric: tabular-nums;
@@ -64,24 +69,6 @@
 
 .amountLong {
   font-size: var(--fs-large);
-}
-
-.changes {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  margin-top: var(--s3);
-  text-align: start;
-}
-
-.heading {
-  padding-inline: var(--s4);
-  color: var(--ink-2);
-  font-size: var(--fs-foot);
-  line-height: var(--lh-foot);
-  font-weight: var(--fw-regular);
-  letter-spacing: 0;
 }
 
 .lines {
@@ -115,6 +102,24 @@
 .line dt,
 .line dd {
   margin: 0;
+}
+
+.line dt {
+  min-width: 0;
+}
+
+.total {
+  min-height: 52px;
+  font-size: var(--fs-head);
+  font-weight: var(--fw-bold);
+}
+
+.total dd {
+  font-weight: var(--fw-bold);
+}
+
+.lines {
+  text-align: start;
 }
 
 .line dd {

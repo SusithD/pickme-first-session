@@ -33,7 +33,7 @@ export default function Help() {
   }
 
   return (
-    <section className="screen">
+    <section className="screen screen-cta">
       <h1 className="large-title">{t('help.title')}</h1>
 
       {submitted ? null : (
@@ -46,9 +46,11 @@ export default function Help() {
             list
           />
           {reason === '' ? <p className={styles.hint}>{t('help.pickReason')}</p> : null}
-          <Button type="submit" block disabled={reason === ''}>
-            {t('help.submit')}
-          </Button>
+          <div className="page-cta">
+            <Button type="submit" block disabled={reason === ''}>
+              {t('help.submit')}
+            </Button>
+          </div>
         </form>
       )}
 
@@ -70,9 +72,11 @@ export default function Help() {
       </div>
 
       {submitted ? (
-        <Button variant="secondary" block onClick={() => dispatch({ type: 'RESET' })}>
-          {t('help.backToStart')}
-        </Button>
+        <div className="page-cta">
+          <Button variant="secondary" block onClick={() => dispatch({ type: 'RESET' })}>
+            {t('help.backToStart')}
+          </Button>
+        </div>
       ) : null}
     </section>
   )

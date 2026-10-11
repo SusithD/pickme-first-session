@@ -25,13 +25,8 @@
   box-shadow: 0 0 0 3px var(--surface);
 }
 
-.pickupText {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
 .pickupName {
+  flex: 1;
   font-size: var(--fs-callout);
   line-height: var(--lh-callout);
   font-weight: var(--fw-semibold);
@@ -109,6 +104,9 @@
 .placeName {
   flex: 1;
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: var(--fw-regular);
 }
 

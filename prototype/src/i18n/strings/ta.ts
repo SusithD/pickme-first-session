@@ -33,8 +33,8 @@ export const ta: Translations = {
   'location.mockNote': 'இது மாதிரி மட்டுமே: உண்மையான அனுமதி கேட்கப்படாது.',
 
   'where.title': 'எங்கே?',
-  'where.pickup': 'பம்பலப்பிட்டி சந்தி அருகில் (GPS, மாதிரி)',
-  'where.pickupLabel': 'பிக்கப்',
+  'where.pickup': 'பம்பலப்பிட்டி சந்தி',
+  'where.pickupLabel': 'பிக்கப் (GPS, மாதிரி)',
   'where.searchLabel': 'எங்கே?',
   'where.searchPlaceholder': 'எங்கே?',
   'where.placesLabel': 'இடங்கள்',
@@ -181,4 +181,12 @@ export const ta: Translations = {
   'receipt.pill.asBooked': 'முன்பதிவு செய்தபடி',
   'receipt.pill.explained': '+{amount} விளக்கப்பட்டது',
   'verify.demoOnly': 'டெமோ மட்டுமே. எதுவும் அனுப்பப்படாது.',
+  'ride.etaSeats': '{min} நிமி · {seats} இருக்கைகள்',
+  'ride.details': 'விவரங்கள்',
+  'trip.eta': '{min} நிமிடம்',
+  'trip.to': '{place} வரை',
+  'finding.title.matched': 'உங்கள் ஓட்டுநர் வந்துகொண்டிருக்கிறார்',
+  'finding.sample': 'மாதிரி',
+  'receipt.bookedFare': 'முன்பதிவு கட்டணம்',
+  'receipt.done': 'முடிந்தது',
 }

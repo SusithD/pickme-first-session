@@ -1,30 +1,79 @@
+.overline {
+  margin-top: var(--s1);
+  color: var(--ink-2);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+}
+
 .routeCard {
   display: flex;
   flex-direction: column;
   gap: var(--s3);
 }
 
-.routeLabel {
-  font-size: 28px;
-  line-height: 34px;
+.eta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.etaValue {
+  font-size: var(--fs-large);
+  line-height: var(--lh-large);
   font-weight: var(--fw-heavy);
   letter-spacing: var(--ls-title);
   font-variant-numeric: tabular-nums;
 }
 
-.track {
-  height: 6px;
-  border-radius: var(--r-pill);
-  background: var(--field);
+.etaTo {
   overflow: hidden;
+  color: var(--ink-2);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  height: 4px;
+  margin: var(--s1) 5px;
+  border-radius: var(--r-pill);
+  background: var(--line);
 }
 
 .travelled {
-  display: block;
+  position: absolute;
+  inset: 0 auto 0 0;
   width: 52%;
-  height: 100%;
   border-radius: var(--r-pill);
+  background: var(--ink);
+}
+
+.startDot,
+.endDot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.startDot {
+  left: -5px;
+  z-index: 1;
   background: var(--primary);
+  border: 2px solid var(--ink);
+}
+
+.endDot {
+  right: -5px;
+  background: var(--ink);
 }
 
 .fare {

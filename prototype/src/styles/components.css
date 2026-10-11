@@ -175,7 +175,7 @@
   background: var(--paper);
 }
 
-.phone:has(.mapscreen) .phone-main {
+.phone:has(.mapscreen, .hero-top) .phone-main {
   top: 0;
 }
 
@@ -252,7 +252,32 @@
   display: flex;
   flex-direction: column;
   gap: var(--s4);
-  padding: var(--s2) var(--s4) calc(var(--safe-b) + var(--s2));
+  padding: var(--s2) var(--s4) calc(var(--safe-b) + var(--s4));
+}
+
+.screen-cta {
+  padding-bottom: 0;
+}
+
+.page-cta {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--s2);
+  margin: auto calc(var(--s4) * -1) 0;
+  padding: var(--s3) var(--s4) calc(var(--safe-b) + var(--s2));
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+
+.screen > form {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  gap: var(--s4);
 }
 
 .screen h1:focus {
@@ -352,7 +377,7 @@
 
 .sheet-tail {
   flex: none;
-  height: var(--safe-b);
+  height: calc(var(--safe-b) + var(--s4));
 }
 
 .sheet-cta {
@@ -412,6 +437,27 @@
   stroke: var(--map-road);
   stroke-width: 2;
   stroke-dasharray: 3 7;
+}
+
+.citymap-route-casing-thin {
+  stroke-width: 7;
+}
+
+.citymap-route-thin {
+  stroke-width: 3;
+}
+
+.citymap-driver {
+  fill: var(--ink);
+  stroke: var(--surface);
+  stroke-width: 3;
+}
+
+.citymap-driver-glyph {
+  fill: none;
+  stroke: var(--primary);
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .citymap-route-casing {
@@ -904,6 +950,63 @@
   overflow-y: auto;
 }
 
+.sheet-close {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--field);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.sheet-close::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+}
+
+.sheet-close:hover {
+  background: var(--line);
+}
+
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  padding: var(--s3);
+  background: var(--primary-soft);
+  border-radius: var(--r-field);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
+}
+
+.callout svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.callout-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.callout-strong {
+  font-weight: var(--fw-semibold);
+}
+
+.ellipsis {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .project-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -1361,4 +1464,68 @@
 
 .mapscreen-sheet > * {
   flex-shrink: 0;
+}
+
+.hero-top {
+  position: relative;
+  flex: 0 0 38%;
+  min-height: 250px;
+  margin: 0 calc(var(--s4) * -1);
+  overflow: hidden;
+  background: var(--primary);
+  border-radius: 0 0 var(--r-sheet) var(--r-sheet);
+}
+
+.hero-compact {
+  flex-basis: 28%;
+  min-height: 200px;
+}
+
+.hero-brand {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--chrome-h) + var(--s4)) var(--s5) 0;
+}
+
+.hero-art {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.hero-sun {
+  fill: var(--surface);
+  opacity: 0.55;
+}
+
+.hero-far rect {
+  fill: var(--primary-pressed);
+}
+
+.hero-near rect,
+.hero-near ellipse,
+.hero-near path {
+  fill: var(--ink);
+  opacity: 0.88;
+}
+
+.hero-road {
+  fill: var(--ink);
+}
+
+.hero-tuk path,
+.hero-tuk circle:not(.hero-window),
+.hero-tuk rect:not(.hero-window) {
+  fill: var(--ink);
+}
+
+.hero-window {
+  fill: var(--primary);
+}
+
+.action-circle:disabled {
+  background: transparent;
+  color: var(--ink-2);
 }

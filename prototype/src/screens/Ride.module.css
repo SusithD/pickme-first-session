@@ -40,7 +40,7 @@
 .promiseLink {
   align-self: stretch;
   gap: 2px;
-  max-width: 8.5rem;
+  white-space: nowrap;
   min-height: 44px;
   padding: 0 var(--s3) 0 var(--s2);
   font-size: var(--fs-foot);
@@ -147,6 +147,31 @@
   line-height: var(--lh-head);
   font-weight: var(--fw-semibold);
   font-variant-numeric: tabular-nums;
+}
+
+.payment {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s2) var(--s3);
+}
+
+.payment > :global(.field-label) {
+  flex: none;
+  margin: 0;
+  font-weight: var(--fw-semibold);
+}
+
+.payment > :global(.radio-group) {
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.payment :global(.radio) {
+  min-width: 0;
+  padding-inline: var(--s2);
 }
 
 .payLabel {

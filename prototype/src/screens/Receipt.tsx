@@ -1,5 +1,12 @@
-import { LinkButton } from '../components/Button'
-import { IconAlert, IconCard, IconCash, IconCheck, IconStar } from '../components/icons'
+import { Button, LinkButton } from '../components/Button'
+import {
+  IconAlert,
+  IconCard,
+  IconCash,
+  IconCheck,
+  IconReceipt,
+  IconStar,
+} from '../components/icons'
 import { Notice } from '../components/Notice'
 import { RadioGroup } from '../components/Radio'
 import { useI18n } from '../i18n/I18nContext'
@@ -66,13 +73,21 @@ export default function Receipt() {
   const asBooked = payable === booked
 
   return (
-    <section className={`screen ${styles.receipt}`}>
-      <span className={styles.seal}>
-        <IconCheck size={30} />
+    <section className={`screen screen-cta ${styles.receipt}`}>
+      <span className={`${styles.seal} ${treatment && asBooked ? styles.sealOk : ''}`}>
+        {treatment && asBooked ? <IconCheck size={30} /> : <IconReceipt size={28} />}
       </span>
       <h1 className={styles.title}>{t('receipt.title')}</h1>
 
       <div className={styles.summary}>
+        {treatment ? (
+          <p className={styles.amount}>
+            <span aria-hidden="true">{formatLkr(payable)}</span>
+            <span className="visually-hidden">{headline}</span>
+          </p>
+        ) : (
+          <p className={styles.amount}>{headline}</p>
+        )}
         {treatment ? (
           <p className={`${styles.pill} ${asBooked ? styles.pillOk : styles.pillWarn}`}>
             {asBooked ? <IconCheck size={16} /> : <IconAlert size={16} />}
@@ -81,21 +96,26 @@ export default function Receipt() {
               : t('receipt.pill.explained', { amount: formatLkr(payable - booked) })}
           </p>
         ) : null}
-        <p className={`${styles.amount} ${treatment ? styles.amountLong : ''}`}>{headline}</p>
-        {shownChanges.length > 0 ? (
-          <div className={styles.changes}>
-            <h2 className={styles.heading}>{t('receipt.changesHeading')}</h2>
-            <dl className={styles.lines}>
-              {shownChanges.map((change) => (
-                <div key={change.id} className={styles.line}>
-                  <dt>{changeLabel(change)}</dt>
-                  <dd>+{formatLkr(change.amount)}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        ) : null}
       </div>
+
+      {shownChanges.length > 0 ? (
+        <dl className={styles.lines}>
+          <div className={styles.line}>
+            <dt className="ellipsis">{t('receipt.bookedFare')}</dt>
+            <dd>{formatLkr(booked)}</dd>
+          </div>
+          {shownChanges.map((change) => (
+            <div key={change.id} className={styles.line}>
+              <dt className="ellipsis">{changeLabel(change)}</dt>
+              <dd>+{formatLkr(change.amount)}</dd>
+            </div>
+          ))}
+          <div className={`${styles.line} ${styles.total}`}>
+            <dt>{t('fare.total')}</dt>
+            <dd>{formatLkr(payable)}</dd>
+          </div>
+        </dl>
+      ) : null}
 
       {treatment && flagged > 0 ? (
         <Notice tone="warn">{t('receipt.flagged', { amount: formatLkr(flagged) })}</Notice>
@@ -118,9 +138,14 @@ export default function Receipt() {
         optionClassName={styles.star}
       />
 
-      <LinkButton variant="ghost" block className={styles.quiet} to={STEP_PATHS.help}>
-        {t('receipt.notRight')}
-      </LinkButton>
+      <div className="page-cta">
+        <LinkButton variant="ghost" block className={styles.quiet} to={STEP_PATHS.help}>
+          {t('receipt.notRight')}
+        </LinkButton>
+        <Button block onClick={() => dispatch({ type: 'RESET' })}>
+          {t('receipt.done')}
+        </Button>
+      </div>
     </section>
   )
 }

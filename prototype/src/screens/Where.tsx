@@ -55,9 +55,9 @@ export default function Where() {
       <div className={styles.group}>
         <div className={styles.pickup}>
           <span className={styles.pickupDot} aria-hidden="true" />
-          <span className={styles.pickupText}>
-            <span className="footnote">{t('where.pickupLabel')}</span>
-            <span className={styles.pickupName}>{t('where.pickup')}</span>
+          <span className="footnote">{t('where.pickupLabel')}</span>
+          <span className={`ellipsis ${styles.pickupName}`} title={t('where.pickup')}>
+            {t('where.pickup')}
           </span>
         </div>
         <div className={styles.search}>

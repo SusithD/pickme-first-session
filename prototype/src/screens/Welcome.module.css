@@ -1,5 +1,19 @@
 .welcome {
-  gap: var(--s5);
+  gap: var(--s4);
+  padding-top: 0;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding-top: var(--s2);
+}
+
+.subtitle {
+  color: var(--ink-2);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .caption {
@@ -9,14 +23,6 @@
   font-size: var(--fs-foot);
   line-height: var(--lh-foot);
   text-transform: none;
-}
-
-.bottom {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
-  margin-top: auto;
-  text-align: center;
 }
 
 .form {
