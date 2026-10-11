@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>PickMe first session - LinkedIn banners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#211f20;--ink-2:#5c6068;--surface:#fff;--line:#e5e5ea;--primary:#fed52f;--primary-soft:#fff8d6;--amber:#fdb940;--ok-ink:#067647;--ok-bg:#e3f6ea;--warn-ink:#6b4300;--warn-bg:#fff1d6;--danger:#b42318;--stage:#eef2f5;--stage-dot:#cdd5dc;--field:#f2f2f7;--r-lg:20px;--r-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;padding:40px;background:#dfe5ea;font-family:Manrope,system-ui,sans-serif;color:var(--ink);display:flex;flex-direction:column;gap:40px;width:max-content}
+.banner{position:relative;width:1600px;height:900px;overflow:hidden;background-color:var(--stage);background-image:radial-gradient(var(--stage-dot) 1px,transparent 1.2px);background-size:22px 22px;padding:80px}
+.eyebrow{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border-radius:var(--r-pill);background:var(--primary);color:var(--ink);font-size:18px;font-weight:700}
+h1,h2{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.06}
+.mark{background:linear-gradient(transparent 62%,var(--primary) 62%,var(--primary) 92%,transparent 92%);padding:0 4px}
+.sub{color:var(--ink-2);font-size:24px;line-height:1.45;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:var(--r-pill);background:var(--surface);border:1px solid var(--line);font-size:17px;font-weight:700}
+.foot{position:absolute;left:80px;right:80px;bottom:44px;display:flex;justify-content:space-between;font-size:16px;font-weight:600;color:var(--ink-2)}
+.ph{position:relative;flex:none;filter:drop-shadow(0 40px 32px rgba(33,31,32,.32))}
+.ph iframe{border:0;display:block;background:transparent}
+.abs{position:absolute}
+.num{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--primary);font-weight:800;font-size:20px;flex:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:0 1px 2px rgba(33,31,32,.04)}
+.card h3{margin:0 0 16px;font-size:17px;font-weight:700;color:var(--ink-2)}
+
+/* 01 */
+#b1 .left{position:absolute;left:80px;top:120px;width:700px}
+#b1 h1{font-size:96px;margin-top:28px}
+#b1 .sub{margin-top:28px;max-width:600px;font-size:26px}
+#b1 .chips{margin-top:40px}
+/* 02 */
+.top{position:absolute;left:80px;top:80px;right:80px}
+.top h2{font-size:64px;margin-top:20px}
+#b2 .stage2{position:absolute;left:80px;right:80px;top:230px;height:520px}
+.pair{position:absolute;top:0;display:flex;align-items:flex-start;gap:36px}
+.lab{margin-top:0}
+.lab b{display:block;font-size:26px;font-weight:800}
+.lab span{display:block;color:var(--ink-2);font-size:18px;margin-top:4px}
+.callouts{position:absolute;left:0;width:520px;top:30px;display:flex;flex-direction:column;gap:22px}
+.callout{display:flex;gap:16px;align-items:flex-start}
+.callout p{margin:0;font-size:22px;line-height:1.35;font-weight:600}
+.callout p small{display:block;color:var(--ink-2);font-size:17px;font-weight:500;margin-top:2px}
+/* 03 */
+#b3 .flow{position:absolute;left:80px;right:80px;top:215px;display:flex;justify-content:space-between}
+.step{display:flex;flex-direction:column;align-items:center;width:250px}.step .row span{white-space:nowrap}
+.step .row{display:flex;align-items:center;gap:12px;margin-top:22px}
+.step .row span{font-size:20px;font-weight:700}
+/* 04 */
+#b4 .cards{position:absolute;left:80px;top:200px;width:760px;display:flex;flex-direction:column;gap:20px}
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.sw div{border-radius:14px;padding:12px;min-height:96px;display:flex;flex-direction:column;justify-content:flex-end;font-size:14px;font-weight:700;border:1px solid var(--line)}
+.sw div i{font-style:normal;font-weight:600;font-size:13px;margin-top:2px}
+.type{display:flex;flex-direction:column;gap:6px}
+.type div{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.type small{font-size:14px;color:var(--ink-2);font-weight:600;white-space:nowrap}
+</style></head><body>
+
+<section class="banner" id="b1">
+ <div class="left">
+  <span class="eyebrow">Unofficial growth concept</span>
+  <h1>A first ride you can <span class="mark">trust</span></h1>
+  <p class="sub">PickMe's new-rider first session in Sri Lanka,<br>from install to receipt.</p>
+  <div class="chips"><span class="chip">13 iOS-style screens</span><span class="chip">English, Sinhala, Tamil</span><span class="chip">WCAG 2.2 AA</span></div>
+ </div>
+ <div class="ph abs" data-scene="welcome-treatment" data-h="600" style="left:800px;top:150px"></div>
+ <div class="ph abs" data-scene="receipt-delta" data-h="600" style="left:1230px;top:170px"></div>
+ <div class="ph abs" data-scene="ride-treatment" data-h="660" style="left:1010px;top:110px"></div>
+ <div class="foot"><span>Unofficial concept · Not affiliated with PickMe</span><span>susithd.github.io/pickme-first-session</span></div>
+</section>
+
+<section class="banner" id="b2">
+ <div class="top"><span class="eyebrow">Before / after</span><h2>One screen, <span class="mark">one promise</span></h2></div>
+ <div class="stage2">
+  <div class="callouts">
+   <div class="callout"><span class="num">1</span><p>A fare you can hold<small>Fixed fare shown before you book</small></p></div>
+   <div class="callout"><span class="num">2</span><p>The breakdown, up front<small>What is in the fare</small></p></div>
+   <div class="callout"><span class="num">3</span><p>Three change rules, in plain words<small>Proposed rules, stated before pickup</small></p></div>
+  </div>
+  <div class="pair" style="left:620px">
+   <div><div class="ph" data-scene="ride-control" data-h="480"></div><div class="lab" style="margin-top:22px"><b>Control · generic pattern</b><span>Not PickMe's interface</span></div></div>
+  </div>
+  <div class="pair" style="left:1060px">
+   <div><div class="ph" data-scene="ride-treatment" data-h="480"></div><div class="lab" style="margin-top:22px"><b>Treatment · fixed fare</b><span>Fare, breakdown, change rules</span></div></div>
+  </div>
+ </div>
+ <div class="foot"><span>Unofficial concept · Not affiliated with PickMe</span><span>susithd.github.io/pickme-first-session</span></div>
+</section>
+
+<section class="banner" id="b3">
+ <div class="top"><span class="eyebrow">The flow</span><h2>From install to a receipt <span class="mark">that matches</span></h2></div>
+ <div class="flow">
+  <div class="step"><div class="ph" data-scene="where" data-h="500"></div><div class="row"><span class="num">1</span><span>Pick a route</span></div></div>
+  <div class="step"><div class="ph" data-scene="ride-treatment" data-h="500"></div><div class="row"><span class="num">2</span><span>See a fixed fare</span></div></div>
+  <div class="step"><div class="ph" data-scene="fare-sheet" data-h="500"></div><div class="row"><span class="num">3</span><span>See the breakdown</span></div></div>
+  <div class="step"><div class="ph" data-scene="finding-matched" data-h="500"></div><div class="row"><span class="num">4</span><span>Get matched</span></div></div>
+  <div class="step"><div class="ph" data-scene="receipt-delta" data-h="500"></div><div class="row"><span class="num">5</span><span>Receipt matches</span></div></div>
+ </div>
+ <div class="foot"><span>Unofficial concept · Not affiliated with PickMe</span><span>susithd.github.io/pickme-first-session</span></div>
+</section>
+
+<section class="banner" id="b4">
+ <div class="top" style="width:760px"><span class="eyebrow">System &amp; trust</span><h2 style="font-size:56px">Built to <span class="mark">pass AA</span></h2></div>
+ <div class="cards" style="top:230px">
+  <div class="card"><h3>Colour tokens · contrast on surface</h3>
+   <div class="sw">
+    <div style="background:#fed52f">Primary<i>#FED52F</i><i>11.5:1 with ink</i></div>
+    <div style="background:#211f20;color:#fff;border-color:#211f20">Ink<i>#211F20</i><i>16.4:1 on white</i></div>
+    <div style="background:#fff8d6">Soft<i>#FFF8D6</i><i>15.3:1 with ink</i></div>
+    <div style="background:#e3f6ea;color:#067647">OK<i>#067647</i><i>5.1:1 on tint</i></div>
+    <div style="background:#fff1d6;color:#6b4300">Warn<i>#6B4300</i><i>7.8:1 on tint</i></div>
+   </div></div>
+  <div class="card"><h3>Type · Manrope</h3>
+   <div class="type">
+    <div><span style="font-size:34px;font-weight:800;letter-spacing:-.03em">Fare you can hold</span><small>34 / 41 · 800</small></div>
+    <div><span style="font-size:22px;font-weight:700">Fixed fare, with a breakdown</span><small>22 / 28 · 700</small></div>
+    <div><span style="font-size:17px;font-weight:500;color:var(--ink-2)">Body copy never drops below 15 px on a phone</span><small>17 / 22 · 500</small></div>
+   </div></div>
+ </div>
+ <div class="ph abs" data-scene="receipt-sinhala" data-h="560" style="left:960px;top:130px"></div>
+ <div class="ph abs" data-scene="ride-tamil" data-h="560" style="left:1253px;top:190px"></div>
+ <div class="foot"><span>Desk research only · Not affiliated with PickMe</span><span>susithd.github.io/pickme-first-session</span></div>
+</section>
+
+<script>
+document.querySelectorAll('.ph').forEach(el=>{
+  const h=+el.dataset.h,w=Math.round(h*414/868);
+  el.style.width=w+'px';el.style.height=h+'px';
+  const f=document.createElement('iframe');
+  f.src='https://susithd.github.io/pickme-first-session/?embed=1&scene='+el.dataset.scene+'&v=3';
+  f.width=w;f.height=h;f.scrolling='no';f.loading='eager';f.title=el.dataset.scene;
+  el.appendChild(f);
+});
+</script></body></html>
