@@ -1,0 +1,67 @@
+:root {
+  --ink: #14213d;
+  --ink-2: #5b6470;
+  --paper: #fafaf7;
+  --surface: #ffffff;
+  --primary: #0b6e6d;
+  --primary-soft: #e6f4f3;
+  --primary-ink: #085e5d;
+  --on-primary: #ffffff;
+  --danger: #b42318;
+  --danger-bg: #fef3f2;
+  --warn-ink: #7a4e00;
+  --warn-bg: #fffbeb;
+  --ok-ink: #067647;
+  --ok-bg: #ecfdf3;
+  --border: #6b7584;
+  --focus: #14213d;
+  --stage: #eef1f3;
+  --scrim: rgba(20, 33, 61, 0.5);
+
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 20px;
+
+  --fs-display: 1.75rem;
+  --lh-display: 1.2;
+  --fs-title: 1.25rem;
+  --lh-title: 1.3;
+  --fs-body: 1rem;
+  --lh-body: 1.5;
+  --fs-small: 0.875rem;
+  --lh-small: 1.5;
+  --fs-caption: 0.75rem;
+  --lh-caption: 1.4;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+
+  --font-latin: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-si: 'Noto Sans Sinhala', Inter, system-ui, sans-serif;
+  --font-ta: 'Noto Sans Tamil', Inter, system-ui, sans-serif;
+
+  --duration: 160ms;
+  --ease: ease-out;
+  --target: 44px;
+
+  --frame-w: 390px;
+  --frame-h: 844px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion='allow']) {
+    --duration: 0ms;
+  }
+}
+
+:root[data-motion='reduce'] {
+  --duration: 0ms;
+}
