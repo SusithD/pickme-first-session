@@ -58,6 +58,11 @@ test.describe('treatment flow, keyboard only', () => {
     await tabAndPress(page, page.getByRole('link', { name: 'Type pickup instead' }))
     await expect(h1(page, 'Where to?')).toBeFocused()
 
+    await tabAndPress(page, page.getByRole('button', { name: 'Add a note for your driver' }))
+    await expect(page.getByRole('button', { name: 'Add a note for your driver' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    )
     await tabTo(page, page.getByRole('textbox', { name: /Pickup note/ }))
     await page.keyboard.type('Blue gate')
     await tabTo(page, page.getByRole('searchbox', { name: 'Where to?' }))
@@ -186,6 +191,28 @@ test.describe('treatment flow, keyboard only', () => {
     await expect(page.getByText('60 s left')).toBeVisible()
     await page.clock.runFor(61_000)
     await expect(h1(page, 'Your fare')).toBeVisible()
+  })
+})
+
+test.describe('route sync', () => {
+  test('closing the fare sheet right after opening it returns to the ride screen', async ({
+    page,
+  }) => {
+    await open(page, 'ride')
+    await setDemo(page, { variant: 'treatment' })
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve) => {
+          document.querySelector<HTMLElement>('#fare-trigger')?.click()
+          window.setTimeout(() => {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+            resolve()
+          }, 4)
+        }),
+    )
+    await expect(page.getByRole('dialog')).toBeHidden()
+    await expect(h1(page, 'Choose your ride')).toBeVisible()
+    await expect(page).toHaveURL(/#\/ride$/)
   })
 })
 

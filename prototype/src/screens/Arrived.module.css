@@ -4,19 +4,35 @@
   gap: var(--s2);
 }
 
+.confirm {
+  min-height: 56px;
+  font-size: var(--fs-head);
+  font-weight: var(--fw-semibold);
+}
+
 .note {
-  color: var(--primary-ink);
+  padding: var(--s3) var(--s4);
+  background: var(--primary-soft);
+  border-radius: var(--r-field);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
+  font-weight: var(--fw-semibold);
 }
 
 .rule {
   color: var(--ink-2);
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
 }
 
 .countdown {
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
-  font-weight: var(--fw-semibold);
+  align-self: flex-start;
+  padding: 1px var(--s3);
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--primary);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
+  font-weight: var(--fw-bold);
   font-variant-numeric: tabular-nums;
 }

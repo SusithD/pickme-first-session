@@ -1,4 +1,5 @@
 import { LinkButton } from '../components/Button'
+import { IconPin } from '../components/icons'
 import { useI18n } from '../i18n/I18nContext'
 import { useRide } from '../state/RideContext'
 import { STEP_PATHS, nextStep } from '../state/rideMachine'
@@ -13,7 +14,12 @@ export default function Location() {
 
   return (
     <section className={`screen ${styles.location}`}>
-      <h1>{t(control ? 'location.title.control' : 'location.title.treatment')}</h1>
+      <span className={styles.badge}>
+        <IconPin size={44} />
+      </span>
+      <h1 className="large-title">
+        {t(control ? 'location.title.control' : 'location.title.treatment')}
+      </h1>
       <p className={styles.body}>
         {t(control ? 'location.body.control' : 'location.body.treatment')}
       </p>

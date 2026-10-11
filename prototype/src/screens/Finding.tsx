@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Button, LinkButton } from '../components/Button'
 import { ShareTripButton } from '../components/ShareTripButton'
 import { LiveRegion } from '../components/LiveRegion'
+import { IconBell, IconCheck, IconPhone, IconShare, IconStar } from '../components/icons'
+import { MapScreen } from '../components/MapScreen'
 import { Notice } from '../components/Notice'
 import { useI18n } from '../i18n/I18nContext'
 import { useReducedMotion, useRide, useVariant } from '../state/RideContext'
@@ -89,9 +91,23 @@ export default function Finding() {
   }
 
   const showPrimer = variant === 'treatment' && permissions.notifications === 'unset'
+  const agreedMethod = driver
+    ? t(driver.agreedPayment === 'cash' ? 'common.cash' : 'common.card')
+    : ''
 
   return (
-    <section className="screen">
+    <MapScreen
+      mode={finding === 'searching' || finding === 'cancelled' ? 'searching' : 'pickup'}
+      back={false}
+      sheetTop={finding === 'matched' ? '40%' : undefined}
+      footer={
+        finding === 'matched' && driver ? (
+          <LinkButton block to={STEP_PATHS.trip}>
+            {t('finding.continue')}
+          </LinkButton>
+        ) : undefined
+      }
+    >
       <h1>{t('finding.title')}</h1>
 
       {finding === 'searching' ? (
@@ -104,7 +120,9 @@ export default function Finding() {
             )}
             <div>
               <p className={styles.lead}>{t('finding.searching', { ride: rideLabel })}</p>
-              <p className="muted">{t('finding.elapsed', { seconds: elapsed })}</p>
+              <p className={`muted ${styles.elapsed}`}>
+                {t('finding.elapsed', { seconds: elapsed })}
+              </p>
             </div>
           </div>
           <div className={styles.actions}>
@@ -122,29 +140,40 @@ export default function Finding() {
         <>
           <h2 className={styles.heading}>{t('finding.matched')}</h2>
           <div className={styles.driver}>
-            <p className={styles.driverName}>{driver.name}</p>
-            <p>{t('finding.rating', { rating: driver.rating })}</p>
-            <p>
-              {driver.vehicle}, {t('finding.plate', { plate: driver.plate })}
-            </p>
-            <p>{t('finding.eta', { min: driver.etaMin })}</p>
-            {pickupNote ? <p>{t('finding.note', { note: pickupNote })}</p> : null}
+            <div className={styles.driverTop}>
+              <span className={styles.avatar} aria-hidden="true">
+                {driver.name.slice(0, 1)}
+              </span>
+              <div className={styles.driverId}>
+                <p className={styles.driverName}>{driver.name}</p>
+                <p className={styles.rating}>
+                  <IconStar size={16} filled />
+                  <span>{t('finding.rating', { rating: driver.rating })}</span>
+                </p>
+              </div>
+              <p className={styles.eta}>{t('finding.eta', { min: driver.etaMin })}</p>
+            </div>
+            <div className={styles.vehicleRow}>
+              <span className={styles.vehicle}>{driver.vehicle}</span>
+              <span className={styles.plate}>{t('finding.plate', { plate: driver.plate })}</span>
+            </div>
+            {pickupNote ? (
+              <p className={styles.note}>{t('finding.note', { note: pickupNote })}</p>
+            ) : null}
             <p className={styles.badge}>
-              {t('finding.agreed', {
-                method: t(driver.agreedPayment === 'cash' ? 'common.cash' : 'common.card'),
-              })}
+              <IconCheck size={18} />
+              {t('finding.agreed', { method: agreedMethod })}
             </p>
           </div>
           {scenario === 'cashDemand' && variant === 'treatment' ? (
-            <Notice tone="warn">
-              {t('finding.cashLocked', {
-                method: t(driver.agreedPayment === 'cash' ? 'common.cash' : 'common.card'),
-              })}
-            </Notice>
+            <Notice tone="warn">{t('finding.cashLocked', { method: agreedMethod })}</Notice>
           ) : null}
           {showPrimer ? (
-            <Notice tone="info" className={styles.primer}>
-              <p>{t('finding.notifTitle')}</p>
+            <Notice tone="info">
+              <p className={styles.primerText}>
+                <IconBell size={20} />
+                <span>{t('finding.notifTitle')}</span>
+              </p>
               <div className={styles.primerActions}>
                 <Button
                   onClick={() =>
@@ -164,14 +193,22 @@ export default function Finding() {
               </div>
             </Notice>
           ) : null}
-          <div className={styles.actions}>
-            <Button variant="secondary" block disabled>
+          <div className={styles.tiles}>
+            <Button variant="secondary" className="action-circle" disabled>
+              <span className="circle">
+                <IconPhone size={20} />
+              </span>
               {t('finding.call')}
             </Button>
-            <ShareTripButton block label={t('finding.share')} />
-            <LinkButton block to={STEP_PATHS.trip}>
-              {t('finding.continue')}
-            </LinkButton>
+            <ShareTripButton
+              className="action-circle"
+              icon={
+                <span className="circle">
+                  <IconShare size={20} />
+                </span>
+              }
+              label={t('finding.share')}
+            />
           </div>
         </>
       ) : null}
@@ -203,6 +240,6 @@ export default function Finding() {
 
       <LiveRegion message={politeMessage} />
       <LiveRegion message={assertiveMessage} politeness="assertive" />
-    </section>
+    </MapScreen>
   )
 }

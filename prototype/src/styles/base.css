@@ -12,11 +12,14 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--stage);
+  background-color: var(--stage);
+  background-image: radial-gradient(var(--stage-dot) 1px, transparent 1.2px);
+  background-size: 22px 22px;
   color: var(--ink);
   font-family: var(--font-latin);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
+  -webkit-font-smoothing: antialiased;
 }
 
 html[lang='si'] body {
@@ -37,15 +40,28 @@ p {
 }
 
 h1 {
-  font-size: var(--fs-display);
-  line-height: var(--lh-display);
-  font-weight: var(--fw-semibold);
+  font-size: var(--fs-title2);
+  line-height: var(--lh-title2);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-title);
+}
+
+html[lang='si'] h1,
+html[lang='ta'] h1 {
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+html[lang='si'] .phone,
+html[lang='ta'] .phone {
+  line-height: 1.6;
 }
 
 h2 {
-  font-size: var(--fs-title);
-  line-height: var(--lh-title);
+  font-size: var(--fs-head);
+  line-height: var(--lh-head);
   font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-title);
 }
 
 button,
@@ -57,7 +73,11 @@ textarea {
 }
 
 a {
-  color: var(--primary);
+  color: var(--primary-ink);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
 }
 
 :focus-visible {

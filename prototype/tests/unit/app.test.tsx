@@ -64,6 +64,7 @@ describe('App', () => {
     await user.click(screen.getByRole('link', { name: 'Type pickup instead' }))
     await expectScreen('Where to?', t)
 
+    await user.click(screen.getByRole('button', { name: 'Add a note for your driver' }))
     await user.type(screen.getByLabelText(/Pickup note for your driver/), 'Blue gate')
     await user.click(screen.getByRole('button', { name: 'Fort Railway Station' }))
     await expectScreen('Choose your ride', t)

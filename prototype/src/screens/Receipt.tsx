@@ -1,4 +1,5 @@
 import { LinkButton } from '../components/Button'
+import { IconAlert, IconCard, IconCash, IconCheck, IconStar } from '../components/icons'
 import { Notice } from '../components/Notice'
 import { RadioGroup } from '../components/Radio'
 import { useI18n } from '../i18n/I18nContext'
@@ -52,18 +53,35 @@ export default function Receipt() {
     value,
     label: (
       <>
-        <span aria-hidden="true">{value}</span>
+        <IconStar
+          size={32}
+          filled={Number(value) <= (state.rating ?? 0)}
+          className={Number(value) <= (state.rating ?? 0) ? styles.on : undefined}
+        />
         <span className="visually-hidden">{t('receipt.rating', { n: value })}</span>
       </>
     ),
   }))
 
+  const asBooked = payable === booked
+
   return (
-    <section className="screen">
-      <h1>{t('receipt.title')}</h1>
+    <section className={`screen ${styles.receipt}`}>
+      <span className={styles.seal}>
+        <IconCheck size={30} />
+      </span>
+      <h1 className={styles.title}>{t('receipt.title')}</h1>
 
       <div className={styles.summary}>
-        <p className={styles.amount}>{headline}</p>
+        {treatment ? (
+          <p className={`${styles.pill} ${asBooked ? styles.pillOk : styles.pillWarn}`}>
+            {asBooked ? <IconCheck size={16} /> : <IconAlert size={16} />}
+            {asBooked
+              ? t('receipt.pill.asBooked')
+              : t('receipt.pill.explained', { amount: formatLkr(payable - booked) })}
+          </p>
+        ) : null}
+        <p className={`${styles.amount} ${treatment ? styles.amountLong : ''}`}>{headline}</p>
         {shownChanges.length > 0 ? (
           <div className={styles.changes}>
             <h2 className={styles.heading}>{t('receipt.changesHeading')}</h2>
@@ -84,7 +102,10 @@ export default function Receipt() {
       ) : null}
 
       <p className={styles.payment}>
-        {payment === 'card' ? t('receipt.payCard') : t('receipt.payCash')}
+        <span className="icon-badge">
+          {payment === 'card' ? <IconCard size={20} /> : <IconCash size={20} />}
+        </span>
+        <span>{payment === 'card' ? t('receipt.payCard') : t('receipt.payCash')}</span>
       </p>
 
       <RadioGroup
@@ -97,7 +118,7 @@ export default function Receipt() {
         optionClassName={styles.star}
       />
 
-      <LinkButton variant="secondary" block to={STEP_PATHS.help}>
+      <LinkButton variant="ghost" block className={styles.quiet} to={STEP_PATHS.help}>
         {t('receipt.notRight')}
       </LinkButton>
     </section>

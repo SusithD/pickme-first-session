@@ -1,5 +1,6 @@
 import { useId, useRef } from 'react'
 import type { KeyboardEvent, ReactNode } from 'react'
+import { IconCheck } from './icons'
 
 export interface RadioOption<T extends string> {
   value: T
@@ -17,6 +18,7 @@ interface RadioGroupProps<T extends string> {
   orientation?: 'vertical' | 'horizontal'
   className?: string
   optionClassName?: string
+  list?: boolean
 }
 
 export function RadioGroup<T extends string>({
@@ -28,6 +30,7 @@ export function RadioGroup<T extends string>({
   orientation = 'vertical',
   className,
   optionClassName,
+  list,
 }: RadioGroupProps<T>) {
   const labelId = useId()
   const refs = useRef(new Map<T, HTMLButtonElement>())
@@ -67,7 +70,9 @@ export function RadioGroup<T extends string>({
   const hasSelectedEnabled = enabled.some((option) => option.value === value)
 
   return (
-    <div className={className}>
+    <div
+      className={[list ? 'radio-list' : '', className ?? ''].filter(Boolean).join(' ') || undefined}
+    >
       <div id={labelId} className={hideLabel ? 'visually-hidden' : 'field-label'}>
         {label}
       </div>
@@ -101,6 +106,7 @@ export function RadioGroup<T extends string>({
               {option.description ? (
                 <span className="radio-description">{option.description}</span>
               ) : null}
+              <IconCheck size={20} className="radio-tick" />
             </button>
           )
         })}

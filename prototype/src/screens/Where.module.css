@@ -1,50 +1,162 @@
-.screen {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s4);
+.title {
+  margin-top: var(--s1);
+}
+
+.group {
+  overflow: hidden;
+  background: var(--field);
+  border-radius: var(--r-md);
 }
 
 .pickup {
   display: flex;
-  flex-direction: column;
-  gap: var(--s1);
-  padding: var(--s3) var(--s4);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
+  align-items: center;
+  gap: var(--s3);
+  min-height: 52px;
+  padding: var(--s2) var(--s4);
 }
 
-.pickupLabel {
-  font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+.pickupDot {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 3px var(--surface);
+}
+
+.pickupText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pickupName {
+  font-size: var(--fs-callout);
+  line-height: var(--lh-callout);
+  font-weight: var(--fw-semibold);
+}
+
+.search {
+  position: relative;
+  border-top: 1px solid var(--line);
+  margin-inline-start: var(--s4);
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 0;
+  transform: translateY(-50%);
   color: var(--ink-2);
+  pointer-events: none;
+}
+
+.searchInput {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--s4) 0 var(--s6);
+  background: transparent;
+  border: 0;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+}
+
+.searchInput:focus {
+  outline: none;
+}
+
+.search:focus-within {
+  box-shadow: inset 0 -2px 0 var(--ink);
 }
 
 .places {
   display: flex;
   flex-direction: column;
-  gap: var(--s2);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.places li {
+  position: relative;
+}
+
+.places li + li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline: 44px 0;
+  height: 1px;
+  background: var(--line);
+}
+
 .place {
   display: flex;
   align-items: center;
+  gap: var(--s3);
   width: 100%;
-  min-height: var(--target);
-  padding: var(--s3) var(--s4);
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
+  min-height: 52px;
+  padding: var(--s2) 5rem var(--s2) 0;
+  background: none;
+  border: 0;
+  font-size: var(--fs-body);
   text-align: start;
-  font-weight: var(--fw-semibold);
   cursor: pointer;
-  transition: border-color var(--duration) var(--ease);
+}
+
+.placeName {
+  flex: 1;
+  min-width: 0;
+  font-weight: var(--fw-regular);
+}
+
+.distance {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 0;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  font-size: var(--fs-foot);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
 }
 
 .empty {
+  padding: var(--s4) 0;
   color: var(--ink-2);
+}
+
+.note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.noteToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  min-height: 52px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: var(--fs-body);
+  text-align: start;
+  cursor: pointer;
+}
+
+.noteLabel {
+  flex: 1;
+}
+
+.chevron {
+  color: var(--ink-2);
+  transition: transform var(--duration) var(--ease);
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
 }

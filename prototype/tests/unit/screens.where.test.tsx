@@ -156,8 +156,7 @@ describe('Ride screen', () => {
 
   it('shows the same fare labelled as an estimate with no breakdown and no link in control', () => {
     renderScreen(<Ride />, rideState('control'))
-    expect(screen.getByText('Estimated LKR 649')).toBeInTheDocument()
-    expect(screen.queryByText('LKR 649')).not.toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: /^Tuk.*Estimated LKR 649$/ })).toBeInTheDocument()
     expect(screen.queryByText('Fixed fare')).not.toBeInTheDocument()
     expect(screen.queryByText('Includes peak +15% now')).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'What can change this?' })).not.toBeInTheDocument()

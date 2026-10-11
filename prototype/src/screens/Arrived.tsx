@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
+import { IconCheck } from '../components/icons'
 import { LiveRegion } from '../components/LiveRegion'
+import { MapScreen } from '../components/MapScreen'
 import { useI18n } from '../i18n/I18nContext'
 import { useRide, useVariant } from '../state/RideContext'
 import { ARRIVAL_TIMEOUT_SECONDS, PLACES } from '../state/mock'
@@ -14,6 +16,7 @@ export default function Arrived() {
   const variant = useVariant()
   const place = (state.destination ?? PLACES[0])?.name ?? ''
   const treatment = variant === 'treatment'
+  const callout = place
   const [remaining, setRemaining] = useState(ARRIVAL_TIMEOUT_SECONDS)
   const [showNotYet, setShowNotYet] = useState(false)
 
@@ -32,9 +35,9 @@ export default function Arrived() {
 
   if (!treatment) {
     return (
-      <section className="screen">
+      <MapScreen mode="arrived" back={false} callout={callout}>
         <h1>{t('arrived.heading.control')}</h1>
-        <p>{t('arrived.waiting.control')}</p>
+        <p className="muted">{t('arrived.waiting.control')}</p>
         <div className={styles.actions}>
           <Button
             variant="secondary"
@@ -44,15 +47,20 @@ export default function Arrived() {
             {t('arrived.driverEnds')}
           </Button>
         </div>
-      </section>
+      </MapScreen>
     )
   }
 
   return (
-    <section className="screen">
+    <MapScreen mode="arrived" back={false} callout={callout}>
       <h1>{t('arrived.title', { place })}</h1>
       <div className={styles.actions}>
-        <Button block onClick={() => dispatch({ type: 'END_TRIP', endedBy: 'rider' })}>
+        <Button
+          block
+          className={styles.confirm}
+          onClick={() => dispatch({ type: 'END_TRIP', endedBy: 'rider' })}
+        >
+          <IconCheck size={22} />
           {t('arrived.yes')}
         </Button>
         <Button variant="secondary" block onClick={() => setShowNotYet(true)}>
@@ -63,6 +71,6 @@ export default function Arrived() {
       <p className={styles.rule}>{t('arrived.rule', { seconds: ARRIVAL_TIMEOUT_SECONDS })}</p>
       <p className={styles.countdown}>{t('arrived.countdown', { seconds: remaining })}</p>
       <LiveRegion message={halfwayMessage} />
-    </section>
+    </MapScreen>
   )
 }

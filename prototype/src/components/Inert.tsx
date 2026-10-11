@@ -4,7 +4,7 @@ const INERT_PROPS = { inert: '' }
 
 export function Inert({ children }: { children: ReactNode }) {
   return (
-    <div aria-hidden="true" {...INERT_PROPS}>
+    <div className="inert-fill" aria-hidden="true" {...INERT_PROPS}>
       {children}
     </div>
   )

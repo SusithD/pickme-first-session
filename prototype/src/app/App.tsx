@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import { DemoControls } from '../components/DemoControls'
+import { DemoControls, DemoOpener, useIsMobile } from '../components/DemoControls'
 import { PhoneFrame } from '../components/PhoneFrame'
+import { ProjectPanel } from '../components/ProjectPanel'
 import { useFocusReturn } from '../state/FocusReturn'
 import { useRide } from '../state/RideContext'
 import { STEP_PATHS, stepFromPath } from '../state/rideMachine'
@@ -13,18 +14,22 @@ function useRouteSync() {
   const { state, dispatch } = useRide()
   const firstRender = useRef(true)
   const focusReturn = useFocusReturn()
+  const seenPath = useRef(pathname)
 
-  useEffect(() => {
-    const step = stepFromPath(pathname)
-    if (step && step !== state.step) dispatch({ type: 'GOTO', step })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const pathChanged = seenPath.current !== pathname
+    seenPath.current = pathname
     const target = STEP_PATHS[state.step]
-    if (target !== pathname) navigate(target)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.step])
+    if (target === pathname) return
+
+    if (pathChanged) {
+      const routeStep = stepFromPath(pathname)
+      if (routeStep) dispatch({ type: 'GOTO', step: routeStep })
+      return
+    }
+
+    navigate(target)
+  })
 
   useEffect(() => {
     if (firstRender.current) {
@@ -53,10 +58,16 @@ function useRouteSync() {
 
 export function App() {
   useRouteSync()
+  const mobile = useIsMobile()
+  const [demoOpen, setDemoOpen] = useState(false)
 
   return (
     <div className="stage">
-      <PhoneFrame>
+      {mobile ? null : <ProjectPanel />}
+      <PhoneFrame
+        mobile={mobile}
+        headerAction={mobile ? <DemoOpener onOpen={() => setDemoOpen(true)} /> : null}
+      >
         <Routes>
           {routes.map(({ path, Component }) => (
             <Route key={path} path={path} element={<Component />} />
@@ -64,7 +75,7 @@ export function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </PhoneFrame>
-      <DemoControls />
+      <DemoControls mobile={mobile} open={demoOpen} onClose={() => setDemoOpen(false)} />
     </div>
   )
 }

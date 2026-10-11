@@ -5,6 +5,7 @@ export const reviewStatus = 'machine-draft, needs native review'
 export const ta: Translations = {
   'banner.text': 'அதிகாரப்பூர்வமற்ற கருத்துரு. PickMe உடன் தொடர்பு இல்லை.',
 
+  'common.back': 'பின்செல்',
   'common.close': 'மூடு',
   'common.cash': 'பணம்',
   'common.card': 'Card',
@@ -174,4 +175,10 @@ export const ta: Translations = {
   'help.hold': 'கூடுதல் {amount} நிறுத்தி வைக்கப்பட்டுள்ளது.',
   'help.backToStart': 'தொடக்கத்துக்குச் செல்',
   'help.pickReason': 'டிக்கெட்டை அனுப்ப ஒரு காரணத்தைத் தேர்ந்தெடுக்கவும்.',
+
+  'where.addNote': 'உங்கள் ஓட்டுநருக்கு குறிப்பு சேர்க்கவும்',
+  'where.distance': '{km} கி.மீ.',
+  'receipt.pill.asBooked': 'முன்பதிவு செய்தபடி',
+  'receipt.pill.explained': '+{amount} விளக்கப்பட்டது',
+  'verify.demoOnly': 'டெமோ மட்டுமே. எதுவும் அனுப்பப்படாது.',
 }

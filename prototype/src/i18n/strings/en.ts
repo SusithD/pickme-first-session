@@ -4,6 +4,7 @@ import { whereExtra } from './extra/where'
 import { fareExtra } from './extra/fare'
 import { findingExtra } from './extra/finding'
 import { receiptExtra } from './extra/receipt'
+import { stageExtra } from './extra/stage'
 
 export const en = {
   ...introExtra,
@@ -12,6 +13,7 @@ export const en = {
   ...fareExtra,
   ...findingExtra,
   ...receiptExtra,
+  ...stageExtra,
 
   'banner.text': 'Unofficial concept. Not affiliated with PickMe.',
 
@@ -22,6 +24,7 @@ export const en = {
   'frame.enChip': 'EN',
   'frame.enChipLabel': 'Some text on this screen is shown in English',
 
+  'common.back': 'Back',
   'common.close': 'Close',
   'common.cash': 'Cash',
   'common.card': 'Card',

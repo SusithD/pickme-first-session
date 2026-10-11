@@ -6,26 +6,47 @@
 
 .hint {
   color: var(--ink-2);
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
 }
 
 .confirmation {
   display: flex;
   flex-direction: column;
-  gap: var(--s2);
-  padding: var(--s3) var(--s4);
-  border: 1px solid var(--ok-ink);
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s5) var(--s4);
   border-radius: var(--r-md);
-  background: var(--ok-bg);
-  color: var(--ok-ink);
+  background: var(--surface);
+  text-align: center;
+}
+
+.check {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--ink);
 }
 
 .ticket {
-  font-weight: var(--fw-semibold);
+  font-size: var(--fs-callout);
+  line-height: var(--lh-callout);
+}
+
+.mono {
+  padding: var(--s1) var(--s3);
+  border-radius: var(--s2);
+  background: var(--field);
+  font-family: var(--font-mono);
+  font-size: var(--fs-head);
+  font-weight: var(--fw-bold);
 }
 
 .hold {
   color: var(--warn-ink);
+  font-size: var(--fs-sub);
   font-weight: var(--fw-semibold);
 }

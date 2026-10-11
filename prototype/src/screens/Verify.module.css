@@ -1,9 +1,10 @@
 .verify {
-  gap: var(--s5);
+  gap: var(--s4);
 }
 
 .body {
   color: var(--ink-2);
+  font-size: var(--fs-body);
 }
 
 .form {
@@ -12,59 +13,38 @@
   gap: var(--s4);
 }
 
-.phoneRow {
-  display: flex;
-  align-items: stretch;
-  gap: var(--s2);
-}
-
-.prefix {
-  display: inline-flex;
-  align-items: center;
-  flex: none;
-  min-height: var(--target);
-  padding: 0 var(--s3);
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  font-weight: var(--fw-semibold);
-}
-
-.phoneInput {
-  flex: 1;
-  min-width: 0;
-}
-
 .codeInput {
-  font-size: var(--fs-title);
-  letter-spacing: 0.25em;
-  font-weight: var(--fw-semibold);
+  min-height: 64px;
+  font-family: var(--font-mono);
+  font-size: 28px;
+  letter-spacing: 0.3em;
+  text-align: center;
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
 }
 
 .invalid {
-  border-color: var(--danger);
-  border-width: 2px;
+  outline: 2px solid var(--danger);
 }
 
 .hint {
-  margin-top: var(--s1);
+  margin: var(--s2) 0;
   color: var(--ink-2);
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
 }
 
 .demo {
-  color: var(--ink-2);
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
   font-weight: var(--fw-semibold);
 }
 
 .error {
-  margin-top: var(--s1);
+  margin-top: var(--s2);
   color: var(--danger);
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
   font-weight: var(--fw-semibold);
 }
 
@@ -74,18 +54,22 @@
   align-items: flex-start;
   gap: var(--s2);
   color: var(--ink-2);
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
 }
 
 .success {
   display: flex;
   flex-direction: column;
-  gap: var(--s2);
+  gap: var(--s4);
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
+.check {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--ink);
 }

@@ -1,10 +1,66 @@
 .intro {
-  gap: var(--s5);
-  min-height: 100%;
+  gap: 0;
+  padding: 0;
+}
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5) var(--s5);
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--r-sheet);
+  margin: 0 var(--s2);
+}
+
+.art {
+  width: 100%;
+  height: auto;
+  margin: var(--s3) 0;
+}
+
+.artCasing {
+  fill: none;
+  stroke: var(--surface);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.artRoute {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.artStart {
+  fill: var(--surface);
+  stroke: var(--ink);
+  stroke-width: 5;
+}
+
+.artEnd {
+  fill: var(--ink);
+}
+
+.title {
+  max-width: 11ch;
 }
 
 .note {
-  color: var(--ink-2);
+  max-width: 34ch;
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+  padding: var(--s5) var(--s4) calc(var(--safe-b) + var(--s2));
 }
 
 .language {
@@ -14,19 +70,19 @@
 }
 
 .caption {
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
-  font-weight: var(--fw-semibold);
+  color: var(--ink-2);
+  font-size: var(--fs-foot);
+  line-height: var(--lh-foot);
 }
 
 .actions {
   display: flex;
   flex-direction: column;
-  gap: var(--s3);
+  gap: var(--s2);
 }
 
 .review {
   color: var(--ink-2);
-  font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+  font-size: var(--fs-cap);
+  line-height: var(--lh-cap);
 }

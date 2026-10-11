@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Button } from '../components/Button'
+import { Brand } from '../components/Brand'
+import { IconCheck } from '../components/icons'
 import { LiveRegion } from '../components/LiveRegion'
 import { Notice } from '../components/Notice'
 import { useI18n } from '../i18n/I18nContext'
@@ -95,7 +97,8 @@ export default function Verify() {
 
   return (
     <section className={`screen ${styles.verify}`}>
-      <h1>{t('verify.title')}</h1>
+      <Brand />
+      <h1 className="large-title">{t('verify.title')}</h1>
 
       {stage === 'phone' ? (
         <>
@@ -105,12 +108,12 @@ export default function Verify() {
               <label className="field-label" htmlFor={phoneId}>
                 {t('verify.phoneLabel')}
               </label>
-              <div className={styles.phoneRow}>
-                <span className={styles.prefix}>{t('verify.phonePrefix')}</span>
+              <div className={'phone-row'}>
+                <span className={'phone-prefix'}>{t('verify.phonePrefix')}</span>
                 <input
                   ref={phoneInputRef}
                   id={phoneId}
-                  className={`form-input ${styles.phoneInput} ${phoneError ? styles.invalid : ''}`}
+                  className={`phone-input ${phoneError ? styles.invalid : ''}`}
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel-national"
@@ -123,6 +126,7 @@ export default function Verify() {
               <p id={phoneHintId} className={styles.hint}>
                 {t('verify.phoneHint')}
               </p>
+              <p className="demo-note">{t('verify.demoOnly')}</p>
               {phoneError ? (
                 <p id={phoneErrorId} className={styles.error}>
                   {phoneError}
@@ -142,6 +146,7 @@ export default function Verify() {
             {t('verify.codeHint', { phone: `${t('verify.phonePrefix')} ${sentTo}` })}
           </p>
           <p className={styles.demo}>{t('verify.demoCode', { code: DEMO_OTP })}</p>
+          <p className="demo-note">{t('verify.demoOnly')}</p>
           <form className={styles.form} noValidate onSubmit={confirmCode}>
             <div>
               <label className="field-label" htmlFor={codeId}>
@@ -189,6 +194,9 @@ export default function Verify() {
 
       {stage === 'done' ? (
         <div className={styles.success}>
+          <span className={styles.check}>
+            <IconCheck size={36} />
+          </span>
           <Notice tone="ok" live="polite">
             {t('verify.success')}
           </Notice>

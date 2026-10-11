@@ -5,6 +5,7 @@ export const reviewStatus = 'machine-draft, needs native review'
 export const si: Translations = {
   'banner.text': 'නිල නොවන සංකල්පයක්. PickMe සමඟ සම්බන්ධයක් නැත.',
 
+  'common.back': 'ආපසු',
   'common.close': 'වසන්න',
   'common.cash': 'මුදල්',
   'common.card': 'Card',
@@ -171,4 +172,10 @@ export const si: Translations = {
   'help.hold': 'අමතර {amount} රඳවා ඇත.',
   'help.backToStart': 'මුලට යන්න',
   'help.pickReason': 'ටිකට් එක යැවීමට හේතුවක් තෝරන්න.',
+
+  'where.addNote': 'ඔබේ රියදුරුට සටහනක් එක් කරන්න',
+  'where.distance': 'කි.මී. {km}',
+  'receipt.pill.asBooked': 'වෙන් කළ පරිදිම',
+  'receipt.pill.explained': '+{amount} පැහැදිලි කර ඇත',
+  'verify.demoOnly': 'ආදර්ශනයක් පමණි. කිසිවක් යවන්නේ නැත.',
 }

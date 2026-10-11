@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, LinkButton } from '../components/Button'
+import { IconAlert, IconCheck, IconLife, IconShare } from '../components/icons'
+import { MapScreen } from '../components/MapScreen'
 import { Notice } from '../components/Notice'
 import { Sheet } from '../components/Sheet'
 import { ShareTripButton } from '../components/ShareTripButton'
@@ -26,9 +28,12 @@ export default function Trip() {
   let routeNotice = null
   if (treatment && routeChange?.status === 'pending') {
     routeNotice = (
-      <Notice tone="warn">
-        <p>{t('trip.routeNotice', { amount: formatLkr(routeChange.amount) })}</p>
-        <div className={styles.actions}>
+      <Notice tone="warn" className={styles.change}>
+        <p className={styles.changeText}>
+          <IconAlert size={22} />
+          <span>{t('trip.routeNotice', { amount: formatLkr(routeChange.amount) })}</span>
+        </p>
+        <div className={styles.changeActions}>
           <Button onClick={() => dispatch({ type: 'ACCEPT_CHANGE' })}>{t('trip.accept')}</Button>
           <Button variant="secondary" onClick={() => dispatch({ type: 'DEFER_CHANGE' })}>
             {t('trip.askLater')}
@@ -51,28 +56,44 @@ export default function Trip() {
   }
 
   return (
-    <section className={styles.screen}>
+    <MapScreen
+      mode="trip"
+      back={false}
+      callout={
+        destination
+          ? t('trip.routeBar', { place: destination.name, min: destination.tripMinutes })
+          : undefined
+      }
+      footer={
+        <LinkButton to={STEP_PATHS.arrived} block>
+          {t('trip.continue')}
+        </LinkButton>
+      }
+    >
       <h1>{t('trip.title')}</h1>
 
       {destination ? (
         <div className={styles.routeCard}>
-          <div className={styles.track} aria-hidden="true">
-            <span className={styles.dotDone} />
-            <span className={styles.travelled} />
-            <span className={styles.dotCurrent} />
-            <span className={styles.remaining} />
-            <span className={styles.dotEnd} />
-          </div>
           <p className={styles.routeLabel}>
             {t('trip.routeBar', { place: destination.name, min: destination.tripMinutes })}
           </p>
+          <div className={styles.track} aria-hidden="true">
+            <span className={styles.travelled} />
+          </div>
         </div>
       ) : null}
 
       <p className={styles.fare}>
-        {unchanged
-          ? t('trip.fareUnchanged', { amount: formatLkr(total) })
-          : t('trip.fareSoFar', { amount: formatLkr(total) })}
+        {unchanged ? (
+          <span className={styles.fareOk}>
+            <IconCheck size={16} />
+          </span>
+        ) : null}
+        <span>
+          {unchanged
+            ? t('trip.fareUnchanged', { amount: formatLkr(total) })
+            : t('trip.fareSoFar', { amount: formatLkr(total) })}
+        </span>
       </p>
 
       <div aria-live="polite" aria-atomic="true">
@@ -80,14 +101,15 @@ export default function Trip() {
       </div>
 
       <div className={styles.actions}>
-        <ShareTripButton label={t('trip.share')} />
+        <ShareTripButton label={t('trip.share')} icon={<IconShare size={20} />} />
         <Button variant="secondary" onClick={() => setSafetyOpen(true)}>
+          <IconLife size={20} />
           {t('trip.safety')}
         </Button>
       </div>
 
       <Sheet open={safetyOpen} onClose={() => setSafetyOpen(false)} title={t('trip.safety')}>
-        <div className={styles.actions}>
+        <div className={styles.safety}>
           <a className="btn btn-danger btn-block" href="tel:119">
             {t('trip.safety.call')}
           </a>
@@ -95,10 +117,6 @@ export default function Trip() {
         </div>
         <p className="muted">{t('trip.safety.demo')}</p>
       </Sheet>
-
-      <LinkButton to={STEP_PATHS.arrived} block>
-        {t('trip.continue')}
-      </LinkButton>
-    </section>
+    </MapScreen>
   )
 }

@@ -1,4 +1,5 @@
 import { LinkButton } from '../components/Button'
+import { IconQuote } from '../components/icons'
 import { useI18n } from '../i18n/I18nContext'
 import type { StringKey } from '../i18n/types'
 import { STEP_PATHS } from '../state/rideMachine'
@@ -49,6 +50,7 @@ export default function Problem() {
           <li key={panel.quote} className={styles.card}>
             <h2 className={styles.situation}>{t(panel.situation)}</h2>
             <figure className={styles.figure}>
+              <IconQuote size={32} className={styles.mark} />
               <blockquote className={styles.quote}>
                 <p>{t(panel.quote)}</p>
               </blockquote>
@@ -56,7 +58,7 @@ export default function Problem() {
             </figure>
             <p className={styles.tagRow}>
               <span className={styles.tagLabel}>{t('problem.tagLabel')}</span>
-              <span className="chip chip-treatment">{t(panel.tag)}</span>
+              <span className={styles.tag}>{t(panel.tag)}</span>
             </p>
           </li>
         ))}

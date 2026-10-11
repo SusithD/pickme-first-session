@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, LinkButton } from '../components/Button'
 import { LangToggle } from '../components/LangToggle'
+import { Brand } from '../components/Brand'
 import { LiveRegion } from '../components/LiveRegion'
 import { useI18n } from '../i18n/I18nContext'
 import { normalisePhone } from '../state/mock'
@@ -22,15 +23,18 @@ function TreatmentWelcome() {
 
   return (
     <section className={`screen ${styles.welcome}`}>
-      <h1>{t('welcome.title.treatment')}</h1>
+      <Brand />
+      <h1 className="large-title">{t('welcome.title.treatment')}</h1>
       <div className={styles.language}>
         <p className={styles.caption}>{t('welcome.langPrompt')}</p>
         <LangToggle size="large" labelKind="long" />
       </div>
-      <LinkButton to={next ? STEP_PATHS[next] : STEP_PATHS.welcome} block>
-        {t('welcome.cta.treatment')}
-      </LinkButton>
-      <p className={styles.note}>{t('welcome.note.treatment')}</p>
+      <div className={styles.bottom}>
+        <p className="footnote">{t('welcome.note.treatment')}</p>
+        <LinkButton to={next ? STEP_PATHS[next] : STEP_PATHS.welcome} block>
+          {t('welcome.cta.treatment')}
+        </LinkButton>
+      </div>
     </section>
   )
 }
@@ -60,17 +64,18 @@ function ControlWelcome() {
 
   return (
     <section className={`screen ${styles.welcome}`}>
-      <h1>{t('welcome.title.control')}</h1>
+      <Brand />
+      <h1 className="large-title">{t('welcome.title.control')}</h1>
       <form className={styles.form} noValidate onSubmit={handleSubmit}>
         <div>
           <label className="field-label" htmlFor={inputId}>
             {t('welcome.phoneLabel.control')}
           </label>
-          <div className={styles.phoneRow}>
-            <span className={styles.prefix}>{t('verify.phonePrefix')}</span>
+          <div className={'phone-row'}>
+            <span className={'phone-prefix'}>{t('verify.phonePrefix')}</span>
             <input
               id={inputId}
-              className={`form-input ${styles.phoneInput} ${phoneError ? styles.invalid : ''}`}
+              className={`phone-input ${phoneError ? styles.invalid : ''}`}
               type="tel"
               inputMode="tel"
               autoComplete="tel-national"
@@ -83,6 +88,7 @@ function ControlWelcome() {
           <p id={hintId} className={styles.hint}>
             {t('welcome.phoneHint.control')}
           </p>
+          <p className="demo-note">{t('verify.demoOnly')}</p>
           {phoneError ? (
             <p id={errorId} className={styles.error}>
               {phoneError}

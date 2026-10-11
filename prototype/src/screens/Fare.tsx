@@ -1,4 +1,5 @@
 import { Button } from '../components/Button'
+import { IconClock, IconPin, IconRoute, IconShield } from '../components/icons'
 import { Sheet } from '../components/Sheet'
 import { useI18n } from '../i18n/I18nContext'
 import { PEAK_PERCENT, WAIT_FEE_PER_MIN, WAIT_FREE_MINUTES, formatLkr } from '../state/mock'
@@ -50,17 +51,35 @@ export default function Fare() {
             <h2 className={styles.heading}>{t('fare.changeHeading')}</h2>
             <ul className={styles.list}>
               <li>
-                {t('fare.change.wait', {
-                  minutes: WAIT_FREE_MINUTES,
-                  amount: formatLkr(WAIT_FEE_PER_MIN),
-                })}
+                <span className="icon-badge">
+                  <IconClock size={20} />
+                </span>
+                <span>
+                  {t('fare.change.wait', {
+                    minutes: WAIT_FREE_MINUTES,
+                    amount: formatLkr(WAIT_FEE_PER_MIN),
+                  })}
+                </span>
               </li>
-              <li>{t('fare.change.route')}</li>
-              <li>{t('fare.change.stop')}</li>
+              <li>
+                <span className="icon-badge">
+                  <IconRoute size={20} />
+                </span>
+                <span>{t('fare.change.route')}</span>
+              </li>
+              <li>
+                <span className="icon-badge">
+                  <IconPin size={20} />
+                </span>
+                <span>{t('fare.change.stop')}</span>
+              </li>
             </ul>
           </div>
 
-          <p className={styles.promise}>{t('fare.promise')}</p>
+          <p className={styles.promise}>
+            <IconShield size={22} />
+            <span>{t('fare.promise')}</span>
+          </p>
 
           <Button block onClick={close}>
             {t('fare.close')}

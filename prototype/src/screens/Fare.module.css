@@ -1,42 +1,59 @@
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--s5);
-  padding-bottom: var(--s2);
+  gap: var(--s4);
 }
 
 .breakdown {
   display: flex;
   flex-direction: column;
-  gap: var(--s2);
   margin: 0;
+  overflow: hidden;
+  background: var(--field);
+  border-radius: var(--r-md);
 }
 
 .line,
 .total {
+  position: relative;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--s3);
+  min-height: 44px;
+  padding: 0 var(--s4);
+}
+
+.line + .line::before,
+.line + .total::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline: var(--s4) 0;
+  height: 1px;
+  background: var(--line);
 }
 
 .line dt,
-.line dd,
-.total dt,
-.total dd {
-  margin: 0;
+.total dt {
+  min-width: 0;
 }
 
 .line dd,
 .total dd {
+  margin: 0;
+  font-weight: var(--fw-semibold);
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
 }
 
 .total {
-  padding-top: var(--s2);
-  border-top: 1px solid var(--border);
-  font-weight: var(--fw-semibold);
+  min-height: 52px;
+  font-size: var(--fs-head);
+  font-weight: var(--fw-bold);
+}
+
+.total dd {
+  font-weight: var(--fw-bold);
 }
 
 .changes {
@@ -46,19 +63,42 @@
 }
 
 .heading {
-  font-size: var(--fs-small);
-  line-height: var(--lh-small);
+  font-size: var(--fs-head);
+  line-height: var(--lh-head);
   font-weight: var(--fw-semibold);
 }
 
 .list {
-  margin: 0;
-  padding-inline-start: var(--s5);
   display: flex;
   flex-direction: column;
-  gap: var(--s1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 48px;
+  padding: var(--s2) 0;
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
 }
 
 .promise {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sub);
+  line-height: var(--lh-sub);
   font-weight: var(--fw-semibold);
+}
+
+.promise svg {
+  flex: none;
 }
