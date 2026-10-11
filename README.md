@@ -1,5 +1,7 @@
 # PickMe first session: an unofficial growth concept
 
+[![A first ride you can trust: unofficial PickMe growth concept, showing the welcome, ride choice and receipt screens](docs/images/01-hero.jpg)](https://susithd.github.io/pickme-first-session/)
+
 From install to a first ride you can trust
 
 [![Pages](https://github.com/SusithD/pickme-first-session/actions/workflows/pages.yml/badge.svg)](https://github.com/SusithD/pickme-first-session/actions/workflows/pages.yml)
@@ -16,6 +18,22 @@ From install to a first ride you can trust
 The primary bet (H1, Part B) is that a rider who can hold the fare will ride again. The proposal: the booking screen shows a fixed fare with its breakdown and the only three things that could change it, and the receipt explains any difference before payment. Reviewer reports (not verified in the app) point to a trust gap between the fare shown and the fare charged, and this is where the work is focused. A rider-side trip end and a one-tap dispute route are separate follow-on tests.
 
 The supporting bet (H5, Part A) is that a new rider who sees their own fare before creating an account will reach a confirmed booking more often. The proposal moves the sign-up step to the moment of booking. Permission timing is split off as its own later test. This bet rests on benchmark evidence, not on PickMe complaints, so it is ranked lower and will be tested separately from H1.
+
+## Screens
+
+[Open the live prototype](https://susithd.github.io/pickme-first-session/) to tap through every screen. Each image below opens it.
+
+**One screen, one promise.** The ride screen in the generic Control pattern and in the fixed-fare Treatment.
+
+[![Control and Treatment ride screens side by side](docs/images/02-before-after.jpg)](https://susithd.github.io/pickme-first-session/)
+
+**From install to a receipt that matches.** Pick a route, see a fixed fare, read the breakdown, get matched, and get a receipt that explains any change.
+
+[![Five screens of the flow from destination to receipt](docs/images/03-flow.jpg)](https://susithd.github.io/pickme-first-session/)
+
+**Built to pass AA.** Colour tokens with their contrast ratios, the Manrope type scale, and the Sinhala and Tamil screens.
+
+[![Design tokens, type scale and the Sinhala and Tamil screens](docs/images/04-system-trust.jpg)](https://susithd.github.io/pickme-first-session/)
 
 ## Live prototype
 
@@ -48,10 +66,12 @@ pickme-first-session/
 │   ├── summary.md              two-minute summary
 │   ├── funnel-audit.md         funnel map and evidence by stage
 │   ├── hypotheses.md           H1 to H5, evidence and what would change my mind
-│   ├── decisions.md            D1 to D16 (D12 removed), dated, with overrides
+│   ├── decisions.md            D1 to D17 (D12 removed), dated, with overrides
 │   ├── prototype-spec.md       screens, routes, states, copy, tokens, variants
 │   ├── experiment-plan.md      H1 test and H5 spec, sample sizes, guardrails, events
-│   └── next-steps.md           primary research first, then follow-on tests, open local questions
+│   ├── next-steps.md           primary research first, then follow-on tests, open local questions
+│   └── images/                 README banners (1600 px)
+├── presentation/               Behance boards and LinkedIn banners, rendered from the live prototype
 ├── prototype/                  React 18, Vite, TypeScript, vanilla CSS, tests
 │   ├── src/
 │   ├── tests/
