@@ -1,4 +1,18 @@
+import { introExtra } from './extra/intro'
+import { welcomeExtra } from './extra/welcome'
+import { whereExtra } from './extra/where'
+import { fareExtra } from './extra/fare'
+import { findingExtra } from './extra/finding'
+import { receiptExtra } from './extra/receipt'
+
 export const en = {
+  ...introExtra,
+  ...welcomeExtra,
+  ...whereExtra,
+  ...fareExtra,
+  ...findingExtra,
+  ...receiptExtra,
+
   'banner.text': 'Unofficial concept. Not affiliated with PickMe.',
 
   'frame.label': 'Phone screen',
